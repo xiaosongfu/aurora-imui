@@ -1,10 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
-ext {
-    PUBLISH_GROUP_ID = 'cn.jiguang.imui'
-    PUBLISH_ARTIFACT_ID = 'messagelist'
-    PUBLISH_VERSION = '0.4.0'
-}
+//ext {
+//    PUBLISH_GROUP_ID = 'cn.jiguang.imui'
+//    PUBLISH_ARTIFACT_ID = 'messagelist'
+//    PUBLISH_VERSION = '0.4.0'
+//}
 
 android {
     compileSdkVersion 25
@@ -22,6 +23,22 @@ android {
     }
 }
 
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId=IMUI_GROUP
+            pom.artifactId=IMUI_ARTIFACT
+            pom.version=IMUI_VERSION
+            repository(url:nexusRelease) {
+                authentication(userName:nexusUserName, password:nexusPassword)
+            }
+            pom.project {
+                description 'jiagyimui library'
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -33,4 +50,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+//apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'

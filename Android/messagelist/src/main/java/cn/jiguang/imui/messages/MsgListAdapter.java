@@ -94,6 +94,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mSendPhotoLayout, mHolders.mSendPhotoHolder, true);
             case TYPE_RECEIVER_IMAGE:
                 return getHolder(parent, mHolders.mReceivePhotoLayout, mHolders.mReceivePhotoHolder, false);
+            case TYPE_SEND_LOCATION:
+                return getHolder(parent, mHolders.mSendLocationLayout, mHolders.mSendLocationHolder, true);
+            case TYPE_RECEIVER_LOCATION:
+                return getHolder(parent, mHolders.mReceiveLocationLayout, mHolders.mReceiveLocationHolder, false);
             case TYPE_SEND_VIDEO:
                 return getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
             case TYPE_RECEIVE_VIDEO:
@@ -123,6 +127,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_IMAGE;
                 case RECEIVE_IMAGE:
                     return TYPE_RECEIVER_IMAGE;
+                case SEND_LOCATION:
+                    return TYPE_SEND_LOCATION;
+                case RECEIVE_LOCATION:
+                    return TYPE_RECEIVER_LOCATION;
                 case SEND_VIDEO:
                     return TYPE_SEND_VIDEO;
                 case RECEIVE_VIDEO:
@@ -555,6 +563,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendPhotoHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceivePhotoHolder;
 
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendLocationHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveLocationHolder;
+
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVideoHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVideoHolder;
 
@@ -566,6 +577,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private int mSendVoiceLayout;
         private int mReceiveVoiceLayout;
+
+        private int mSendLocationLayout;
+        private int mReceiveLocationLayout;
 
         private int mSendPhotoLayout;
         private int mReceivePhotoLayout;
@@ -586,6 +600,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             mSendPhotoHolder = DefaultPhotoViewHolder.class;
             mReceivePhotoHolder = DefaultPhotoViewHolder.class;
 
+            mSendLocationHolder = DefaultLocationViewHolder.class;
+            mReceiveLocationHolder = DefaultLocationViewHolder.class;
+
             mSendVideoHolder = DefaultVideoViewHolder.class;
             mReceiveVideoHolder = DefaultVideoViewHolder.class;
 
@@ -597,6 +614,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
             mSendPhotoLayout = R.layout.item_send_photo;
             mReceivePhotoLayout = R.layout.item_receive_photo;
+
+            mSendLocationLayout = R.layout.item_send_location;
+            mReceiveLocationLayout = R.layout.item_receive_location;
 
             mSendVideoLayout = R.layout.item_send_video;
             mReceiveVideoLayout = R.layout.item_receive_video;
@@ -802,6 +822,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private static class DefaultPhotoViewHolder extends PhotoViewHolder<IMessage> {
 
         public DefaultPhotoViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
+    }
+
+    private static class DefaultLocationViewHolder extends LocationViewHolder<IMessage> {
+
+        public DefaultLocationViewHolder(View itemView, boolean isSender) {
             super(itemView, isSender);
         }
     }

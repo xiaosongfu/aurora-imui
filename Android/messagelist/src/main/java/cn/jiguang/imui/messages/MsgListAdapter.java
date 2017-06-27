@@ -60,6 +60,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
     private OnAvatarClickListener<MESSAGE> mAvatarClickListener;
     private OnMsgResendListener<MESSAGE> mMsgResendListener;
+    private OnMsgLinkClickListener mMsgLinkClickListener;
     private SelectionListener mSelectionListener;
     private int mSelectedItemCount;
     private LinearLayoutManager mLayoutManager;
@@ -176,6 +177,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgClickListener = this.mMsgClickListener;
             ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
             ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
+            ((BaseMessageViewHolder) holder).mMsgLinkClickListener = this.mMsgLinkClickListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
         }
         holder.onBind(wrapper.item);
@@ -545,6 +547,17 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     public interface OnMsgResendListener<MESSAGE extends IMessage> {
         void onMessageResend(MESSAGE message);
+    }
+
+    /**
+     * Callback will invoked when the link content is clicked
+     */
+    public interface OnMsgLinkClickListener {
+        void onMessageLinkClick(String linkContent, String url);
+    }
+
+    public void setOnMsgLinkClickListener(OnMsgLinkClickListener listener) {
+        this.mMsgLinkClickListener = listener;
     }
 
     /**

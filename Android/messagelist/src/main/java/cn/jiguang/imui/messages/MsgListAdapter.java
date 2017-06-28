@@ -62,6 +62,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
+    private OnMsgLinkClickListener mMsgLinkClickListener;
     private OnAvatarClickListener<MESSAGE> mAvatarClickListener;
     private OnMsgResendListener<MESSAGE> mMsgResendListener;
     private SelectionListener mSelectionListener;
@@ -178,6 +179,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mImageLoader = this.mImageLoader;
             ((BaseMessageViewHolder) holder).mMsgLongClickListener = this.mMsgLongClickListener;
             ((BaseMessageViewHolder) holder).mMsgClickListener = this.mMsgClickListener;
+            ((BaseMessageViewHolder) holder).mMsgLinkClickListener = this.mMsgLinkClickListener;
             ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
             ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
@@ -537,6 +539,25 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      */
     public interface OnMsgLongClickListener<MESSAGE extends IMessage> {
         void onMessageLongClick(MESSAGE message);
+    }
+
+    public void setOnMsgLinkClickListener(OnMsgLinkClickListener listener) {
+        mMsgLinkClickListener = listener;
+    }
+
+    /**
+     * Callback will invoked when the link content is clicked
+     */
+    public interface OnMsgLinkClickListener {
+        /**
+         * 富文本消息的文本点击回调
+         * @param isNeededOpenInWebView 是否需要使用浏览器打开，
+         *                              如果是相关法律法规就需要，
+         *                              如果是其他的就是在群里@小商
+         * @param linkContent 在群里@小商的内容
+         * @param url 使用浏览器打开的连接
+         */
+        void onMessageLinkClick(boolean isNeededOpenInWebView, String linkContent, String url);
     }
 
     public interface OnAvatarClickListener<MESSAGE extends IMessage> {

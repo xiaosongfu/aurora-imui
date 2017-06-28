@@ -49,6 +49,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private final int TYPE_CUSTOM_SEND_MSG = 11;
     private final int TYPE_CUSTOM_RECEIVE_MSG = 12;
 
+    // File message
+    private final int TYPE_SEND_FILE = 20;
+    private final int TYPE_RECEIVE_FILE = 21;
+
     private Context mContext;
     private String mSenderId;
     private HoldersConfig mHolders;
@@ -100,6 +104,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
             case TYPE_CUSTOM_SEND_MSG:
                 return getHolder(parent, mHolders.mCustomSendMsgLayout, mHolders.mCustomSendMsgHolder, true);
+            case TYPE_SEND_FILE:
+                return getHolder(parent, mHolders.mSendFileLayout, mHolders.mSendFileHolder, true);
+            case TYPE_RECEIVE_FILE:
+                return getHolder(parent, mHolders.mReceiveFileLayout, mHolders.mReceiveFileHolder, false);
             default:
                 return getHolder(parent, mHolders.mCustomReceiveMsgLayout, mHolders.mCustomReceiveMsgHolder, false);
         }
@@ -129,6 +137,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_RECEIVE_VIDEO;
                 case SEND_CUSTOM:
                     return TYPE_CUSTOM_SEND_MSG;
+                case SEND_FILE:
+                    return TYPE_SEND_FILE;
+                case RECEIVE_FILE:
+                    return TYPE_RECEIVE_FILE;
                 default:
                     return TYPE_CUSTOM_RECEIVE_MSG;
             }
@@ -561,6 +573,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomSendMsgHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomReceiveMsgHolder;
 
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendFileHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveFileHolder;
+
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
 
@@ -576,6 +591,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private int mCustomSendMsgLayout;
         private int mCustomReceiveMsgLayout;
 
+        private int mSendFileLayout;
+        private int mReceiveFileLayout;
+
         public HoldersConfig() {
             mSendTxtHolder = DefaultTxtViewHolder.class;
             mReceiveTxtHolder = DefaultTxtViewHolder.class;
@@ -589,6 +607,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             mSendVideoHolder = DefaultVideoViewHolder.class;
             mReceiveVideoHolder = DefaultVideoViewHolder.class;
 
+            mSendFileHolder = DefaultFileViewHolder.class;
+            mReceiveFileHolder = DefaultFileViewHolder.class;
+
             mSendTxtLayout = R.layout.item_send_text;
             mReceiveTxtLayout = R.layout.item_receive_txt;
 
@@ -600,6 +621,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
             mSendVideoLayout = R.layout.item_send_video;
             mReceiveVideoLayout = R.layout.item_receive_video;
+
+            mSendFileLayout = R.layout.item_send_file;
+            mReceiveFileLayout = R.layout.item_receive_file;
+
         }
 
         /**
@@ -809,6 +834,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private static class DefaultVideoViewHolder extends VideoViewHolder<IMessage> {
 
         public DefaultVideoViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
+    }
+
+    private static class DefaultFileViewHolder extends FileViewHolder<IMessage> {
+
+        public DefaultFileViewHolder(View itemView, boolean isSender) {
             super(itemView, isSender);
         }
     }

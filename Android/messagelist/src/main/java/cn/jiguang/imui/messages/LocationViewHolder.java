@@ -134,10 +134,6 @@ public class LocationViewHolder<MESSAGE extends IMessage>
             mLocLL.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());
             mMsgTv.setTextSize(style.getSendBubbleTextSize());
-            mMsgTv.setPadding(style.getSendBubblePaddingLeft(),
-                    style.getSendBubblePaddingTop(),
-                    style.getSendBubblePaddingRight(),
-                    style.getSendBubblePaddingBottom());
             mLocLL.setPadding(style.getReceiveBubblePaddingLeft(),
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),
@@ -152,10 +148,6 @@ public class LocationViewHolder<MESSAGE extends IMessage>
             mLocLL.setBackground(style.getReceiveBubbleDrawable());
             mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
             mMsgTv.setTextSize(style.getReceiveBubbleTextSize());
-            mMsgTv.setPadding(style.getReceiveBubblePaddingLeft(),
-                    style.getReceiveBubblePaddingTop(),
-                    style.getReceiveBubblePaddingRight(),
-                    style.getReceiveBubblePaddingBottom());
             mLocLL.setPadding(style.getReceiveBubblePaddingLeft(),
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),

@@ -3,6 +3,8 @@ package cn.jiguang.imui.messages;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,7 +17,9 @@ public class LocationViewHolder<MESSAGE extends IMessage>
         extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
+    protected LinearLayout mLocLL;
     protected TextView mMsgTv;
+    protected ImageView mLocIv;
     protected TextView mDateTv;
     protected TextView mDisplayNameTv;
     protected CircleImageView mAvatarIv;
@@ -26,7 +30,9 @@ public class LocationViewHolder<MESSAGE extends IMessage>
     public LocationViewHolder(View itemView, boolean isSender) {
         super(itemView);
         this.mIsSender = isSender;
+        mLocLL = (LinearLayout) itemView.findViewById(R.id.aurora_ll_msgitem_location);
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
+        mLocIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_location);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
@@ -88,6 +94,15 @@ public class LocationViewHolder<MESSAGE extends IMessage>
             }
         });
 
+        mLocIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mMsgClickListener != null) {
+                    mMsgClickListener.onMessageClick(message);
+                }
+            }
+        });
+
         mMsgTv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -116,13 +131,17 @@ public class LocationViewHolder<MESSAGE extends IMessage>
     public void applyStyle(MessageListStyle style) {
         mMsgTv.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
         if (mIsSender) {
-            mMsgTv.setBackground(style.getSendBubbleDrawable());
+            mLocLL.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());
             mMsgTv.setTextSize(style.getSendBubbleTextSize());
             mMsgTv.setPadding(style.getSendBubblePaddingLeft(),
                     style.getSendBubblePaddingTop(),
                     style.getSendBubblePaddingRight(),
                     style.getSendBubblePaddingBottom());
+            mLocLL.setPadding(style.getReceiveBubblePaddingLeft(),
+                    style.getReceiveBubblePaddingTop(),
+                    style.getReceiveBubblePaddingRight(),
+                    style.getReceiveBubblePaddingBottom());
             if (style.getSendingProgressDrawable() != null) {
                 mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());
             }
@@ -130,10 +149,14 @@ public class LocationViewHolder<MESSAGE extends IMessage>
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
         } else {
-            mMsgTv.setBackground(style.getReceiveBubbleDrawable());
+            mLocLL.setBackground(style.getReceiveBubbleDrawable());
             mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
             mMsgTv.setTextSize(style.getReceiveBubbleTextSize());
             mMsgTv.setPadding(style.getReceiveBubblePaddingLeft(),
+                    style.getReceiveBubblePaddingTop(),
+                    style.getReceiveBubblePaddingRight(),
+                    style.getReceiveBubblePaddingBottom());
+            mLocLL.setPadding(style.getReceiveBubblePaddingLeft(),
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),
                     style.getReceiveBubblePaddingBottom());

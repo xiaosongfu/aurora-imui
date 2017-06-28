@@ -23,6 +23,7 @@
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar" />
 
         <LinearLayout
+            android:id="@+id/aurora_ll_msgitem_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/aurora_tv_msgitem_display_name"
@@ -38,8 +39,10 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
-                android:layout_width="140dp"
+                android:id="@+id/aurora_iv_msgitem_location"
+                android:layout_width="148dp"
                 android:layout_height="90dp"
+                android:clickable="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_common_location" />
 

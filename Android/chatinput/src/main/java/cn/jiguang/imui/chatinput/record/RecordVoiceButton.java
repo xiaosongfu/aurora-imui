@@ -273,8 +273,8 @@ public class RecordVoiceButton extends ImageButton {
             }
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             recorder.setOutputFile(myRecAudioFile.getAbsolutePath());
             myRecAudioFile.createNewFile();
             recorder.prepare();

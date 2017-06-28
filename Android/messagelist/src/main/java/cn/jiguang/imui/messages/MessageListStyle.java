@@ -200,7 +200,7 @@ public class MessageListStyle extends Style {
     public Drawable getReceiveBubbleDrawable() {
         if (receiveBubbleDrawable == -1) {
             return getMessageSelector(receiveBubbleColor, receiveBubbleSelectedColor, receiveBubblePressedColor,
-                    R.drawable.aurora_receivetxt_bubble);
+                    R.drawable.talk_from_bubble);
         } else {
             return ContextCompat.getDrawable(mContext, receiveBubbleDrawable);
         }
@@ -386,7 +386,7 @@ public class MessageListStyle extends Style {
     public Drawable getSendBubbleDrawable() {
         if (sendBubbleDrawable == -1) {
             return getMessageSelector(sendBubbleColor, sendBubbleSelectedColor, sendBubblePressedColor,
-                    R.drawable.aurora_sendtxt_bubble);
+                    R.drawable.talk_to_bubble);
         } else {
             return ContextCompat.getDrawable(mContext, sendBubbleDrawable);
         }

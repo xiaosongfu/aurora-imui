@@ -97,6 +97,7 @@
 
     <!--三方音频-->
     <LinearLayout
+        android:id="@+id/aurora_linearlayout_menuitem_threec"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -121,6 +122,7 @@
 
     <!--三方视频-->
     <LinearLayout
+        android:id="@+id/aurora_linearlayout_menuitem_threev"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -145,6 +147,7 @@
 
     <!--转人工服务-->
     <LinearLayout
+        android:id="@+id/aurora_linearlayout_menuitem_human"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -169,6 +172,7 @@
 
     <!--结束调解-->
     <LinearLayout
+        android:id="@+id/aurora_linearlayout_menuitem_end"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

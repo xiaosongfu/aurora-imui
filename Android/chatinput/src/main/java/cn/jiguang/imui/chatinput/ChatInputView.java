@@ -89,9 +89,6 @@ public class ChatInputView extends LinearLayout
     private ImageButton mCameraBtn;
     private ImageButton mSendBtn;
 
-    //TAG 工商局调解应用
-    View threeCBtnContainer, threeVBtnContainer,humanBtnContainer, endBtnContainer;
-
     private TextWatcher mChatInputTextWatcher;
 
     private LinearLayout mChatInputContainer;
@@ -199,10 +196,10 @@ public class ChatInputView extends LinearLayout
 
         //TAG 工商局调解应用
         View fileBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_file);
-        threeCBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threec);
-        threeVBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threev);
-        humanBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_human);
-        endBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_end);
+        View threeCBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threec);
+        View threeVBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threev);
+        View humanBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_human);
+        View endBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_end);
         fileBtnContainer.setOnClickListener(onMenuItemClickListener);
         threeCBtnContainer.setOnClickListener(onMenuItemClickListener);
         threeVBtnContainer.setOnClickListener(onMenuItemClickListener);
@@ -1160,10 +1157,10 @@ public class ChatInputView extends LinearLayout
      * 将 结束调解 隐藏
      */
     public void showMenuForXFZ(){
-        threeCBtnContainer.setVisibility(View.VISIBLE);
-        threeVBtnContainer.setVisibility(View.VISIBLE);
-        humanBtnContainer.setVisibility(View.VISIBLE);
-        endBtnContainer.setVisibility(View.GONE);
+        findViewById(R.id.aurora_linearlayout_menuitem_threec).setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_threev).setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_human).setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_end).setVisibility(View.GONE);
     }
 
     /**
@@ -1171,10 +1168,10 @@ public class ChatInputView extends LinearLayout
      * 将三方音频、三方视频、转人工服务、结束调解都隐藏掉
      */
     public void showMenuForSJ(){
-        threeCBtnContainer.setVisibility(View.VISIBLE);
-        threeVBtnContainer.setVisibility(View.VISIBLE);
-        humanBtnContainer.setVisibility(View.VISIBLE);
-        endBtnContainer.setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_threec).setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_threev).setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_human).setVisibility(View.VISIBLE);
+        findViewById(R.id.aurora_linearlayout_menuitem_end).setVisibility(View.VISIBLE);
     }
 
     /**
@@ -1182,9 +1179,9 @@ public class ChatInputView extends LinearLayout
      * 将 三方音频、三方视频、转人工服务、结束调解 隐藏
      */
     public void showMenuForTJY(){
-        threeCBtnContainer.setVisibility(View.GONE);
-        threeVBtnContainer.setVisibility(View.GONE);
-        humanBtnContainer.setVisibility(View.GONE);
-        endBtnContainer.setVisibility(View.GONE);
+        findViewById(R.id.aurora_linearlayout_menuitem_threec).setVisibility(View.GONE);
+        findViewById(R.id.aurora_linearlayout_menuitem_threev).setVisibility(View.GONE);
+        findViewById(R.id.aurora_linearlayout_menuitem_human).setVisibility(View.GONE);
+        findViewById(R.id.aurora_linearlayout_menuitem_end).setVisibility(View.GONE);
     }
 }

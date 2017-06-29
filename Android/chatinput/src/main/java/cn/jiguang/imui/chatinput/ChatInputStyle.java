@@ -70,9 +70,9 @@ public class ChatInputStyle extends Style {
         style.voiceBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_voiceBtnBg);
         style.voiceBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_voiceBtnIcon, R.drawable.aurora_menuitem_mic);
         style.photoBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_photoBtnBg);
-        style.photoBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_photoBtnIcon, R.drawable.aurora_menuitem_photo);
+        style.photoBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_photoBtnIcon, R.drawable.icon_mediaterobot_image);
         style.cameraBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_cameraBtnBg);
-        style.cameraBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_cameraBtnIcon, R.drawable.aurora_menuitem_camera);
+        style.cameraBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_cameraBtnIcon, R.drawable.icon_mediaterobot_takephoto);
         style.sendBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnBg);
         style.sendBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnIcon, R.drawable.aurora_menuitem_send);
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);

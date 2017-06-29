@@ -95,6 +95,7 @@ public class ChatInputView extends LinearLayout
 //    private ImageButton mThreeVBtn;
 //    private ImageButton mHumanBtn;
 //    private ImageButton mEndBtn;
+    View threeCBtnContainer, threeVBtnContainer,humanBtnContainer, endBtnContainer;
 
     private LinearLayout mChatInputContainer;
     private LinearLayout mMenuItemContainer;
@@ -208,10 +209,10 @@ public class ChatInputView extends LinearLayout
 
         //TAG 工商局调解应用
         View fileBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_file);
-        View threeCBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threec);
-        View threeVBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threev);
-        View humanBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_human);
-        View endBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_end);
+        threeCBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threec);
+        threeVBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threev);
+        humanBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_human);
+        endBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_end);
         fileBtnContainer.setOnClickListener(onMenuItemClickListener);
         threeCBtnContainer.setOnClickListener(onMenuItemClickListener);
         threeVBtnContainer.setOnClickListener(onMenuItemClickListener);
@@ -1147,5 +1148,40 @@ public class ChatInputView extends LinearLayout
                 mCameraSupport.release();
             }
         }
+    }
+
+    //=========================================================================
+    /**
+     * 如果是消费者登录，则需要：
+     * 将 三方音频、三方视频、转人工服务 显示
+     * 将 结束调解 隐藏
+     */
+    public void showMenuForXFZ(){
+        threeCBtnContainer.setVisibility(View.VISIBLE);
+        threeVBtnContainer.setVisibility(View.VISIBLE);
+        humanBtnContainer.setVisibility(View.VISIBLE);
+        endBtnContainer.setVisibility(View.GONE);
+    }
+
+    /**
+     * 如果是商家登录，则需要：
+     * 将三方音频、三方视频、转人工服务、结束调解都隐藏掉
+     */
+    public void showMenuForSJ(){
+        threeCBtnContainer.setVisibility(View.VISIBLE);
+        threeVBtnContainer.setVisibility(View.VISIBLE);
+        humanBtnContainer.setVisibility(View.VISIBLE);
+        endBtnContainer.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 如果是调解员登录，则需要：
+     * 将 三方音频、三方视频、转人工服务、结束调解 隐藏
+     */
+    public void showMenuForTJY(){
+        threeCBtnContainer.setVisibility(View.GONE);
+        threeVBtnContainer.setVisibility(View.GONE);
+        humanBtnContainer.setVisibility(View.GONE);
+        endBtnContainer.setVisibility(View.GONE);
     }
 }

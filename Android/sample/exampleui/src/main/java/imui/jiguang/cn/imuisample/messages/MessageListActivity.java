@@ -172,6 +172,36 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     mChatView.setCameraCaptureFile(fileDir, "temp_photo");
                 }
             }
+
+            @Override
+            public void onThreeCall() {
+                Toast.makeText(getApplicationContext(),
+                        "onThreeCall", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onThreeVideo() {
+                Toast.makeText(getApplicationContext(),
+                        "onThreeVideo", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onHumanService() {
+                Toast.makeText(getApplicationContext(),
+                        "onHumanService", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onEndMediate() {
+                Toast.makeText(getApplicationContext(),
+                        "onEndMediate" , Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void selectFileToSend() {
+                Toast.makeText(getApplicationContext(),
+                        "selectFileToSend", Toast.LENGTH_SHORT).show();
+            }
         });
 
         mChatView.setRecordVoiceListener(new RecordVoiceListener() {

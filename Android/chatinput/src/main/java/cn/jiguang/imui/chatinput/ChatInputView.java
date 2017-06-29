@@ -89,6 +89,13 @@ public class ChatInputView extends LinearLayout
     private ImageButton mCameraBtn;
     private ImageButton mSendBtn;
 
+//    //TAG 工商局调解应用
+//    private ImageButton mFileBtn;
+//    private ImageButton mThreeCBtn;
+//    private ImageButton mThreeVBtn;
+//    private ImageButton mHumanBtn;
+//    private ImageButton mEndBtn;
+
     private LinearLayout mChatInputContainer;
     private LinearLayout mMenuItemContainer;
     private FrameLayout mMenuContainer;
@@ -184,6 +191,13 @@ public class ChatInputView extends LinearLayout
         mCameraBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_camera);
         mSendBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_send);
 
+//        //TAG 工商局调解应用
+//        mFileBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_file);
+//        mThreeCBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_threec);
+//        mThreeVBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_threev);
+//        mHumanBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_human);
+//        mEndBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_end);
+
         View voiceBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_voice);
         View photoBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_photo);
         View cameraBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_camera);
@@ -191,6 +205,18 @@ public class ChatInputView extends LinearLayout
         photoBtnContainer.setOnClickListener(onMenuItemClickListener);
         cameraBtnContainer.setOnClickListener(onMenuItemClickListener);
         mSendBtn.setOnClickListener(onMenuItemClickListener);
+
+        //TAG 工商局调解应用
+        View fileBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_file);
+        View threeCBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threec);
+        View threeVBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_threev);
+        View humanBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_human);
+        View endBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_end);
+        fileBtnContainer.setOnClickListener(onMenuItemClickListener);
+        threeCBtnContainer.setOnClickListener(onMenuItemClickListener);
+        threeVBtnContainer.setOnClickListener(onMenuItemClickListener);
+        humanBtnContainer.setOnClickListener(onMenuItemClickListener);
+        endBtnContainer.setOnClickListener(onMenuItemClickListener);
 
         mSendCountTv = (TextView) findViewById(R.id.aurora_menuitem_tv_send_count);
         mInputMarginLeft = (Space) findViewById(R.id.aurora_input_margin_left);
@@ -361,6 +387,23 @@ public class ChatInputView extends LinearLayout
                     mSelectPhotoView.resetCheckState();
                     dismissMenuLayout();
                 }
+
+                //TAG 工商局调解应用
+            } else if (view.getId() == R.id.aurora_framelayout_menuitem_file) {
+                mListener.selectFileToSend();
+                dismissMenuLayout();
+            } else if (view.getId() == R.id.aurora_framelayout_menuitem_threec) {
+                mListener.onThreeCall();
+                dismissMenuLayout();
+            } else if (view.getId() == R.id.aurora_framelayout_menuitem_threev) {
+                mListener.onThreeVideo();
+                dismissMenuLayout();
+            } else if (view.getId() == R.id.aurora_framelayout_menuitem_human) {
+                mListener.onHumanService();
+                dismissMenuLayout();
+            } else if (view.getId() == R.id.aurora_framelayout_menuitem_end) {
+                mListener.onEndMediate();
+                dismissMenuLayout();
 
             } else {
                 if (mMenuContainer.getVisibility() != VISIBLE) {

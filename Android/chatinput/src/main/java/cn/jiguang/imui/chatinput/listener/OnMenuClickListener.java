@@ -41,4 +41,31 @@ public interface OnMenuClickListener {
      * Fires when camera button is on click.
      */
     void switchToCameraMode();
+
+    //TAG 工商局调解应用
+
+    /**
+     * 三方音频
+     */
+    void onThreeCall();
+
+    /**
+     * 三方视频
+     */
+    void onThreeVideo();
+
+    /**
+     * 转人工服务
+     */
+    void onHumanService();
+
+    /**
+     * 结束调解
+     */
+    void onEndMediate();
+
+    /**
+     * 发送文件
+     */
+    void selectFileToSend();
 }

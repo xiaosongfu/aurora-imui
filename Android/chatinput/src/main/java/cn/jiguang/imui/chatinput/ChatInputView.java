@@ -89,12 +89,7 @@ public class ChatInputView extends LinearLayout
     private ImageButton mCameraBtn;
     private ImageButton mSendBtn;
 
-//    //TAG 工商局调解应用
-//    private ImageButton mFileBtn;
-//    private ImageButton mThreeCBtn;
-//    private ImageButton mThreeVBtn;
-//    private ImageButton mHumanBtn;
-//    private ImageButton mEndBtn;
+    //TAG 工商局调解应用
     View threeCBtnContainer, threeVBtnContainer,humanBtnContainer, endBtnContainer;
 
     private TextWatcher mChatInputTextWatcher;
@@ -193,13 +188,6 @@ public class ChatInputView extends LinearLayout
         mPhotoBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_photo);
         mCameraBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_camera);
         mSendBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_send);
-
-//        //TAG 工商局调解应用
-//        mFileBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_file);
-//        mThreeCBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_threec);
-//        mThreeVBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_threev);
-//        mHumanBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_human);
-//        mEndBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_end);
 
         View voiceBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_voice);
         View photoBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_photo);
@@ -1165,6 +1153,7 @@ public class ChatInputView extends LinearLayout
     }
 
     //=========================================================================
+    //TODO 要不要换成向外面暴露 UI 组件？
     /**
      * 如果是消费者登录，则需要：
      * 将 三方音频、三方视频、转人工服务 显示

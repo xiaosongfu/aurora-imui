@@ -5,9 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
@@ -98,6 +96,8 @@ public class ChatInputView extends LinearLayout
 //    private ImageButton mHumanBtn;
 //    private ImageButton mEndBtn;
     View threeCBtnContainer, threeVBtnContainer,humanBtnContainer, endBtnContainer;
+
+    private TextWatcher mChatInputTextWatcher;
 
     private LinearLayout mChatInputContainer;
     private LinearLayout mMenuItemContainer;
@@ -342,55 +342,22 @@ public class ChatInputView extends LinearLayout
         mEditTextListener = listener;
     }
 
-    //实现 @ 功能 start
-    private class ChoiceOnClickListener implements DialogInterface.OnClickListener {
-        private int which = 0;
-
-        @Override
-        public void onClick(DialogInterface dialogInterface, int which) {
-            this.which = which;
-        }
-
-        public int getWhich() {
-            return which;
-        }
+    public void setChatInputTextWatcher(TextWatcher chatInputTextWatcher) {
+        this.mChatInputTextWatcher = chatInputTextWatcher;
     }
-    private String text = "";
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-        text = charSequence.toString();
+        if (null != this.mChatInputTextWatcher) {
+            this.mChatInputTextWatcher.beforeTextChanged(charSequence, start, count, after);
+        }
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.toString().endsWith("@")) {
-            final String[] users = new String[]{"小i", "调解员", "商家", "投诉方"};
-            final ChoiceOnClickListener choiceOnClickListener = new ChoiceOnClickListener();
-            new AlertDialog.Builder(mContext)
-                    .setTitle("请选择")
-                    .setSingleChoiceItems(users, 0, choiceOnClickListener)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            int where = choiceOnClickListener.getWhich();
-                            String userName = users[choiceOnClickListener.getWhich()];
-                            getInputView().setText(
-                                    getInputView().getText() + userName + " "
-                            );
-                            getInputView().setSelection(getInputView().getText().length());
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
+        if (null != this.mChatInputTextWatcher) {
+            this.mChatInputTextWatcher.onTextChanged(s, start, before, count);
         }
-
 
         mInput = s;
 
@@ -405,15 +372,10 @@ public class ChatInputView extends LinearLayout
 
     @Override
     public void afterTextChanged(Editable editable) {
-        final String after = editable.toString();
-                if (text.equals(after + " ")) {
-                    if (after.endsWith("@小i") || after.endsWith("@调解员") || after.endsWith("@商家") || after.endsWith("@投诉方")) {
-                        getInputView().setText(after.subSequence(0, after.lastIndexOf("@")));
-                        getInputView().setSelection(getInputView().getText().length());
-                    }
-                }
+        if (null != this.mChatInputTextWatcher) {
+            this.mChatInputTextWatcher.afterTextChanged(editable);
+        }
     }
-    //实现 @ 功能 end
 
     public EditText getInputView() {
         return mChatInput;

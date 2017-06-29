@@ -45,7 +45,7 @@
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:clickable="false"
-                android:src="@drawable/aurora_menuitem_photo"
+                android:src="@drawable/icon_mediaterobot_image"
                 />
         </FrameLayout>
 
@@ -68,8 +68,127 @@
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:clickable="false"
-                android:src="@drawable/aurora_menuitem_camera"/>
+                android:src="@drawable/icon_mediaterobot_takephoto"/>
         </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_file"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_file"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/icon_mediaterobot_file"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!--三方音频-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_threec"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_threec"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/icon_mediaterobot_threecall"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!--三方视频-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_threev"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_threev"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/icon_mediaterobot_threevideo"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!--转人工服务-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_human"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_human"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/icon_mediaterobot_humanservice"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!--结束调解-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_end"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_end"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/icon_mediaterobot_endmediate"
+                />
+        </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout

@@ -27,6 +27,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mIsSender;
     private TextView mMsgTv;
     private TextView mDateTv;
+    private TextView mDisplayNameTv;
     private CircleImageView mAvatarIv;
     private ImageView mVoiceIv;
     private TextView mLengthTv;
@@ -49,6 +50,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
         mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mVoiceIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_voice_anim);
         mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
@@ -73,6 +75,11 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         });
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
+        }
+        if (!mIsSender) {
+            if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+                mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+            }
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
@@ -271,6 +278,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         } else {
             mVoiceIv.setImageResource(mReceiveDrawable);
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
+            if (style.getShowDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         }
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();

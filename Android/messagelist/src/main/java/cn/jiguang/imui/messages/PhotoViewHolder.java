@@ -18,6 +18,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 
     private boolean mIsSender;
     private TextView mDateTv;
+    private TextView mDisplayNameTv;
     private ImageView mPhotoIv;
     private CircleImageView mAvatarIv;
     private ProgressBar mSendingPb;
@@ -28,6 +29,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         super(itemView);
         this.mIsSender = isSender;
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
         mPhotoIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_photo);
         mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         if (mIsSender) {
@@ -40,6 +42,11 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     public void onBind(final MESSAGE message) {
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
+        }
+        if (!mIsSender) {
+            if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+                mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+            }
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
@@ -124,6 +131,9 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             }
         } else {
             mPhotoIv.setBackground(style.getReceivePhotoMsgBg());
+            if (style.getShowDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         }
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();

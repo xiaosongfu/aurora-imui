@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="280dp">
+    android:minHeight="240dp">
 
     <TextureView
         android:id="@+id/aurora_txtv_camera_texture"
@@ -37,6 +37,7 @@
         android:layout_gravity="bottom|left"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
+        android:visibility="gone"
         android:background="@drawable/aurora_preview_record_video" />
 
     <ImageButton

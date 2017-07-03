@@ -597,7 +597,7 @@ public class ChatInputView extends LinearLayout
                 mCameraSupport.cancelRecordingVideo();
                 mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
                 mRecordVideoBtn.setBackgroundResource(R.drawable.aurora_preview_camera);
-                mRecordVideoBtn.setVisibility(VISIBLE);
+                mRecordVideoBtn.setVisibility(GONE);
                 mVideoFilePath = null;
                 mFinishRecordingVideo = false;
                 mIsRecordVideoMode = true;
@@ -809,7 +809,7 @@ public class ChatInputView extends LinearLayout
                 ViewGroup.LayoutParams.MATCH_PARENT, sMenuHeight);
         mTextureView.setLayoutParams(params);
         mRecordVideoBtn.setBackgroundResource(R.drawable.aurora_preview_record_video);
-        mRecordVideoBtn.setVisibility(VISIBLE);
+        mRecordVideoBtn.setVisibility(GONE);
         mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
         mSwitchCameraBtn.setVisibility(VISIBLE);
         mCaptureBtn.setBackgroundResource(R.drawable.aurora_menuitem_send_pres);

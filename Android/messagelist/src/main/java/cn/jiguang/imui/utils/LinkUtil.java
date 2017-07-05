@@ -22,12 +22,12 @@ public class LinkUtil {
         ArrayList<String> urls = new ArrayList<>(4);
         ArrayList<Integer> starts = new ArrayList<>(4);
         ArrayList<Integer> ends = new ArrayList<>(4);
-        Pattern pattern = Pattern.compile("<a href=\".*?\">(.*?)</a>");//首先将a标签分离出来
+        Pattern pattern = Pattern.compile("<a href=\".*?\" .*?>(.*?)</a>");//首先将a标签分离出来
         Matcher matcher = pattern.matcher(source);
         int i=0;
         while(matcher.find()){
             String raw = matcher.group(0);
-            Pattern url_pattern = Pattern.compile("<a href=\"(.*?)\">");//将href分离出来
+            Pattern url_pattern = Pattern.compile("<a href=\"(.*?)\" .*?>");//将href分离出来
             Matcher url_matcher = url_pattern.matcher(raw);
             try {
                 if(url_matcher.find()){

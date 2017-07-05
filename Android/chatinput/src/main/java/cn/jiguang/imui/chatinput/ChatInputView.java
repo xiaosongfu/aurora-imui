@@ -758,7 +758,9 @@ public class ChatInputView extends LinearLayout
 
                 @Override
                 public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                    mCameraSupport.release();
+                    if (null != mCameraSupport) {
+                        mCameraSupport.release();
+                    }
                     return false;
                 }
 

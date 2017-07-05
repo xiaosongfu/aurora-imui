@@ -42,6 +42,16 @@ public interface OnMenuClickListener {
      */
     void switchToCameraMode();
 
+    /**
+     * 进入全屏
+     */
+    void enterFullScreen();
+
+    /**
+     * 退出全屏
+     */
+    void quiteFullScreen();
+
     //TAG 工商局调解应用
 
     /**

@@ -774,6 +774,9 @@ public class ChatInputView extends LinearLayout
      * Full screen mode
      */
     private void fullScreen() {
+        if (mListener != null) {
+            mListener.enterFullScreen();
+        }
         // hide top status bar
         Activity activity = (Activity) getContext();
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
@@ -793,6 +796,9 @@ public class ChatInputView extends LinearLayout
      * Recover screen
      */
     private void recoverScreen() {
+        if (mListener != null) {
+            mListener.quiteFullScreen();
+        }
         Activity activity = (Activity) getContext();
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);

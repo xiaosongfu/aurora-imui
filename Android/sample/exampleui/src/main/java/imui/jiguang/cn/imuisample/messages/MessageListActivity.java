@@ -174,6 +174,16 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
+            public void enterFullScreen() {
+
+            }
+
+            @Override
+            public void quiteFullScreen() {
+
+            }
+
+            @Override
             public void onThreeCall() {
                 Toast.makeText(getApplicationContext(),
                         "onThreeCall", Toast.LENGTH_SHORT).show();

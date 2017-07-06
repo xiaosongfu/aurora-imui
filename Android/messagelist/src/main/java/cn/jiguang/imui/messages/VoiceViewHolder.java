@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -71,8 +72,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 return false;
             }
         });
-        if (message.getTimeString() != null) {
+        if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setText(message.getTimeString());
+        } else {
+            mDateTv.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();

@@ -3,6 +3,7 @@ package cn.jiguang.imui.messages;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,8 +46,10 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void onBind(final Message message) {
-        if (message.getTimeString() != null) {
+        if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mTextDate.setText(message.getTimeString());
+        } else {
+            mTextDate.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();

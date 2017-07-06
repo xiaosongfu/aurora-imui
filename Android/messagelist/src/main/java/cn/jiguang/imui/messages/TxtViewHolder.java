@@ -2,6 +2,7 @@ package cn.jiguang.imui.messages;
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -91,8 +92,10 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             mMsgTv.setText(text);
         }
 //        mMsgTv.setText(message.getText());
-        if (message.getTimeString() != null) {
+        if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setText(message.getTimeString());
+        } else {
+            mDateTv.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();

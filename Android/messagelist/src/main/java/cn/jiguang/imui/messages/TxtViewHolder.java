@@ -110,8 +110,10 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             mMsgTv.setText(text);
         }
 //        mMsgTv.setText(message.getText());
-        if (message.getTimeString() != null) {
+        if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setText(message.getTimeString());
+        } else {
+            mDateTv.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();

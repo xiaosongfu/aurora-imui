@@ -1,5 +1,6 @@
 package cn.jiguang.imui.messages;
 
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,7 @@ public class FileViewHolder<MESSAGE extends IMessage>
 
     @Override
     public void onBind(final MESSAGE message) {
+        mMsgTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mMsgTv.setText(message.getText());
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setText(message.getTimeString());

@@ -132,7 +132,8 @@ public class LocationViewHolder<MESSAGE extends IMessage>
 
     @Override
     public void applyStyle(MessageListStyle style) {
-        mMsgTv.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+        mMsgTv.setMaxWidth((int) (style.getWindowWidth() * 0.6));
+        mLocIv.setMaxWidth((int) (style.getWindowWidth() * 0.6));
         if (mIsSender) {
             mLocLL.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());

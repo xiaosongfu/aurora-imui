@@ -44,7 +44,7 @@
                 android:layout_height="120dp"
                 android:clickable="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_common_location" />
+                android:src="@drawable/icon_common_locate" />
 
         </LinearLayout>
     </RelativeLayout>

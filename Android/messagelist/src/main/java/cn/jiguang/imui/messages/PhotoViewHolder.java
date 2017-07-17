@@ -40,6 +40,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     @Override
     public void onBind(final MESSAGE message) {
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
+            mDateTv.setVisibility(View.VISIBLE);
             mDateTv.setText(message.getTimeString());
         } else {
             mDateTv.setVisibility(View.GONE);

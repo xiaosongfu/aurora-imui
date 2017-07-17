@@ -45,6 +45,7 @@ public class LocationViewHolder<MESSAGE extends IMessage>
     public void onBind(final MESSAGE message) {
         mMsgTv.setText(message.getText());
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
+            mDateTv.setVisibility(View.VISIBLE);
             mDateTv.setText(message.getTimeString());
         } else {
             mDateTv.setVisibility(View.GONE);

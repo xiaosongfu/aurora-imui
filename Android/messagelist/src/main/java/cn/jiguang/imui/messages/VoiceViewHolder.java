@@ -73,6 +73,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             }
         });
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
+            mDateTv.setVisibility(View.VISIBLE);
             mDateTv.setText(message.getTimeString());
         } else {
             mDateTv.setVisibility(View.GONE);

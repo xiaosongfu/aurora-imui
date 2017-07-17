@@ -47,6 +47,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     @Override
     public void onBind(final Message message) {
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
+            mTextDate.setVisibility(View.VISIBLE);
             mTextDate.setText(message.getTimeString());
         } else {
             mTextDate.setVisibility(View.GONE);

@@ -41,6 +41,7 @@ public class FileViewHolder<MESSAGE extends IMessage>
         mMsgTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mMsgTv.setText(message.getText());
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
+            mDateTv.setVisibility(View.VISIBLE);
             mDateTv.setText(message.getTimeString());
         } else {
             mDateTv.setVisibility(View.GONE);

@@ -111,6 +111,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         }
 //        mMsgTv.setText(message.getText());
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
+            mDateTv.setVisibility(View.VISIBLE);
             mDateTv.setText(message.getTimeString());
         } else {
             mDateTv.setVisibility(View.GONE);

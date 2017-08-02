@@ -51,7 +51,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         //参考：http://blog.csdn.net/qq_24530405/article/details/50506519
         //参考：http://m.blog.csdn.net/article/details?id=51767368
         final String text = message.getText();
-        System.out.println("onBind: "+text);
+//        System.out.println("onBind: "+text);
         if (text == null || text.length() == 0) {
             return;
         }
@@ -95,14 +95,14 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     //Log.i("TxtViewHolder", "spann是：" + spannableString);
                     //Log.i("TxtViewHolder", "remain是：" + remainText);
                     if (front.length() > 0) {
-                        System.out.println("onBind--front: "+text);
+//                        System.out.println("onBind--front: "+text);
                         mMsgTv.append(front);
                     }
-                    System.out.println("onBind--spannableString: "+spannableString);
+//                    System.out.println("onBind--spannableString: "+spannableString);
                     mMsgTv.append(spannableString);
                 }
                 if (remainText != null && remainText.length() > 0) {
-                    System.out.println("onBind--remainText: "+remainText);
+//                    System.out.println("onBind--remainText: "+remainText);
                     mMsgTv.append(remainText);
                 }
             }

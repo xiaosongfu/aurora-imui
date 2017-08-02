@@ -32,7 +32,7 @@ public class LinkUtil {
             try {
                 if(url_matcher.find()){
                     String url = url_matcher.group(1);
-                    Log.i("LinkUtil","真实url是："+url);//括号里面的
+//                    Log.i("LinkUtil","真实url是："+url);//括号里面的
                     urls.add(i,url);
                 }
             } catch (Exception e) {
@@ -46,15 +46,15 @@ public class LinkUtil {
                 e.printStackTrace();
                 continue;
             }
-            Log.i("LinkUtil","蓝色文字是："+host);//括号里面的
+//            Log.i("LinkUtil","蓝色文字是："+host);//括号里面的
             hosts.add(i,host);
             starts.add(i,matcher.start());
             ends.add(i,matcher.end());
-            Log.i("LinkUtil","字符串起始下标是："+matcher.start()+"，结尾下标是："+matcher.end());//匹配出的字符串在源字符串的位置
+//            Log.i("LinkUtil","字符串起始下标是："+matcher.start()+"，结尾下标是："+matcher.end());//匹配出的字符串在源字符串的位置
             i++;
         }
         if(hosts.size()==0){
-            Log.i("LinkUtil","没有发现url");
+//            Log.i("LinkUtil","没有发现url");
             return null;
         }
         Object[][] outputs = new Object[4][hosts.size()];//第一个下标是内容的分类，第二个下标是url的序号

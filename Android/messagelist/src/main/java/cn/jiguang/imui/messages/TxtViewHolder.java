@@ -55,8 +55,11 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         if (text == null || text.length() == 0) {
             return;
         }
-        //只关心接收到的文本消息
-        if(IMessage.MessageType.RECEIVE_TEXT == message.getType()) {
+//        //只关心接收到的文本消息
+        //20170802 下午，fix bug #388
+        //调解员登录 app 的时候，他在 web 推送的法律法规就不再是 IMessage.MessageType.RECEIVE_TEXT 这个类型，
+        //所以这里不能限定在 IMessage.MessageType.RECEIVE_TEXT 这个类型
+//        if(IMessage.MessageType.RECEIVE_TEXT == message.getType()) {
             Object[][] output = LinkUtil.parseLinks(text);
             if (output == null || output.length == 0 || output[0] == null || output[0].length == 0) {
                 mMsgTv.setText(message.getText());
@@ -106,9 +109,9 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     mMsgTv.append(remainText);
                 }
             }
-        }else {
-            mMsgTv.setText(text);
-        }
+//        }else {
+//            mMsgTv.setText(text);
+//        }
 //        mMsgTv.setText(message.getText());
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setVisibility(View.VISIBLE);

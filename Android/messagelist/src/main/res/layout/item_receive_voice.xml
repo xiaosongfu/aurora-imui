@@ -51,10 +51,10 @@
                 android:id="@+id/aurora_tv_voice_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="52dp"
                 android:text="3'"
-                android:textColor="@color/white"
+                android:textColor="#555555"
                 android:textSize="12sp" />
 
         </FrameLayout>

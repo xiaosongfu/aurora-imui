@@ -30,21 +30,21 @@ android {
     }
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.groupId=CHAT_INPUT_GROUP
-            pom.artifactId=CHAT_INPUT_ARTIFACT
-            pom.version=CHAT_INPUT_VERSION
-            repository(url:nexusRelease) {
-                authentication(userName:nexusUserName, password:nexusPassword)
-            }
-            pom.project {
-                description 'gsj chat input library'
-            }
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            pom.groupId=CHAT_INPUT_GROUP
+//            pom.artifactId=CHAT_INPUT_ARTIFACT
+//            pom.version=CHAT_INPUT_VERSION
+//            repository(url:nexusRelease) {
+//                authentication(userName:nexusUserName, password:nexusPassword)
+//            }
+//            pom.project {
+//                description 'gsj chat input library'
+//            }
+//        }
+//    }
+//}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

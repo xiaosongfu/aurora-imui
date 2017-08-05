@@ -121,9 +121,10 @@ public class FileViewHolder<MESSAGE extends IMessage>
 
     @Override
     public void applyStyle(MessageListStyle style) {
-        mMsgTv.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+//        mMsgTv.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+        mMsgTv.setMaxWidth((int) (style.getWindowWidth() * 0.4F));
         if (mIsSender) {
-            mMsgTv.setBackground(style.getSendBubbleDrawable());
+//            mMsgTv.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());
             mMsgTv.setTextSize(style.getSendBubbleTextSize());
             mMsgTv.setPadding(style.getSendBubblePaddingLeft(),
@@ -137,7 +138,7 @@ public class FileViewHolder<MESSAGE extends IMessage>
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
         } else {
-            mMsgTv.setBackground(style.getReceiveBubbleDrawable());
+//            mMsgTv.setBackground(style.getReceiveBubbleDrawable());
             mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
             mMsgTv.setTextSize(style.getReceiveBubbleTextSize());
             mMsgTv.setPadding(style.getReceiveBubblePaddingLeft(),

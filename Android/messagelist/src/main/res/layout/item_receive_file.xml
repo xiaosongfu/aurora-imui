@@ -23,14 +23,42 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar" />
 
-        <TextView
-            android:id="@+id/aurora_tv_msgitem_message"
-            style="@style/aurora_msgitem_msg_txt_style"
+
+        <!--<TextView-->
+            <!--android:id="@+id/aurora_tv_msgitem_message"-->
+            <!--style="@style/aurora_msgitem_msg_txt_style"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/aurora_tv_msgitem_display_name"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"-->
+            <!--android:background="@drawable/talk_from_bubble" />-->
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_below="@id/aurora_tv_msgitem_display_name"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"
-            android:background="@drawable/talk_from_bubble" />
+            android:background="@drawable/talk_from_bubble" >
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/attachment_icon"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/aurora_tv_msgitem_message"
+                style="@style/aurora_msgitem_msg_txt_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哦翁苏丹诺夫的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力对方的身份"
+                android:layout_marginLeft="6dp"
+                android:layout_centerVertical="true"/>
+
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -667,7 +667,7 @@ public class ChatInputView extends LinearLayout
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(getContext(), getContext().getString(R.string.file_not_found_toast),
+            Toast.makeText(getContext(), getContext().getString(R.string.voice_file_not_found_toast),
                     Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         } finally {

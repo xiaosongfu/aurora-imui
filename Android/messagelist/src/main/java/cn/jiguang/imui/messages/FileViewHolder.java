@@ -39,6 +39,7 @@ public class FileViewHolder<MESSAGE extends IMessage>
     @Override
     public void onBind(final MESSAGE message) {
         mMsgTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        // TAG 2017/8/5 注意：文件类型消息界面上显示的包含文件名和大小都保存在 text 里面
         mMsgTv.setText(message.getText());
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setVisibility(View.VISIBLE);

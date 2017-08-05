@@ -88,6 +88,8 @@ public interface IMessage {
      * @return file path
      */
     String getMediaFilePath();
+    String getMediaFileName();
+    long getMediaFileSize();
 
     /**
      * If message type is voice or video, get duration through this method.

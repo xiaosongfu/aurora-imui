@@ -44,16 +44,17 @@
             <!--android:paddingRight="20dp"-->
             <!--android:text="sfada"/>-->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginRight="3dp"
             android:background="@drawable/talk_to_bubble"
+            android:layout_centerVertical="true"
             android:paddingRight="20dp">
 
             <ImageView
+                android:id="@+id/file_icon_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/attachment_icon"
@@ -64,10 +65,22 @@
                 style="@style/aurora_msgitem_msg_txt_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/file_icon_iv"
                 android:layout_marginLeft="6dp"
-                android:text="sfada"/>
+                android:layout_marginTop="2dp"
+                android:paddingBottom="24dp"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/aurora_tv_msgitem_filesize"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@id/file_icon_iv"
+                android:layout_below="@id/aurora_tv_msgitem_message"
+                android:layout_alignLeft="@id/aurora_tv_msgitem_message"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="2dp"/>
+
+        </RelativeLayout>
 
         <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"

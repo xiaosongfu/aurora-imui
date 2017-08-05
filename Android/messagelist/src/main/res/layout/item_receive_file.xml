@@ -34,10 +34,9 @@
             <!--android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"-->
             <!--android:background="@drawable/talk_from_bubble" />-->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_below="@id/aurora_tv_msgitem_display_name"
             android:layout_centerVertical="true"
@@ -45,6 +44,7 @@
             android:background="@drawable/talk_from_bubble" >
 
             <ImageView
+                android:id="@+id/file_icon_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/attachment_icon"
@@ -55,10 +55,21 @@
                 style="@style/aurora_msgitem_msg_txt_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="哦翁苏丹诺夫的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力的开发阶段努力对方的身份"
+                android:layout_toRightOf="@id/file_icon_iv"
                 android:layout_marginLeft="6dp"
-                android:layout_centerVertical="true"/>
+                android:layout_marginTop="6dp"
+                android:paddingBottom="24dp"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/aurora_tv_msgitem_filesize"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@id/file_icon_iv"
+                android:layout_below="@id/aurora_tv_msgitem_message"
+                android:layout_marginLeft="6dp"
+                android:layout_alignLeft="@id/aurora_tv_msgitem_message"
+                android:layout_marginBottom="2dp"/>
+
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

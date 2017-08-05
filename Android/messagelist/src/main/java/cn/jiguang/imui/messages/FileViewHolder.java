@@ -1,6 +1,5 @@
 package cn.jiguang.imui.messages;
 
-import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +17,7 @@ public class FileViewHolder<MESSAGE extends IMessage>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     protected TextView mMsgTv;
+    protected TextView mMsgFileSizeTv;
     protected TextView mDateTv;
     protected TextView mDisplayNameTv;
     protected CircleImageView mAvatarIv;
@@ -29,6 +29,7 @@ public class FileViewHolder<MESSAGE extends IMessage>
         super(itemView);
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
+        mMsgFileSizeTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_filesize);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
@@ -38,9 +39,23 @@ public class FileViewHolder<MESSAGE extends IMessage>
 
     @Override
     public void onBind(final MESSAGE message) {
-        mMsgTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        // TAG 2017/8/5 注意：文件类型消息界面上显示的包含文件名和大小都保存在 text 里面
-        mMsgTv.setText(message.getText());
+//        mMsgTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        mMsgTv.setText(message.getMediaFileName());
+        if (message.getMediaFileSize() > 0){
+            long size = message.getMediaFileSize() / 1024;
+            String sizeText = "";
+            if (size <= 0) {
+                sizeText = message.getMediaFileSize() + "B";
+            } else {
+                long size2 = size / 1024;
+                if (size2 <= 0) {
+                    sizeText = size + "KB";
+                } else {
+                    sizeText = size2 + "MB";
+                }
+            }
+            mMsgFileSizeTv.setText(sizeText);
+        }
         if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setVisibility(View.VISIBLE);
             mDateTv.setText(message.getTimeString());

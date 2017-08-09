@@ -92,7 +92,9 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                         }
                     }, 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    spannableString.setSpan(new ForegroundColorSpan(Color.WHITE),0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    if(IMessage.MessageType.SEND_TEXT == message.getType()) {
+                        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
 
                     int subStart = start - lastStart;
                     String front = remainText.substring(0, subStart);//截取出一段文字+一段url
@@ -113,7 +115,6 @@ public class TxtViewHolder<MESSAGE extends IMessage>
 //                    System.out.println("onBind--remainText: "+remainText);
                     mMsgTv.append(remainText);
                 }
-                mMsgTv.setTextColor(Color.WHITE);
             }
 //        }else {
 //            mMsgTv.setText(text);

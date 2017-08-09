@@ -1,10 +1,12 @@
 package cn.jiguang.imui.messages;
 
+import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -89,6 +91,9 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                             }
                         }
                     }, 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    spannableString.setSpan(new ForegroundColorSpan(Color.WHITE),0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
                     int subStart = start - lastStart;
                     String front = remainText.substring(0, subStart);//截取出一段文字+一段url
                     //Log.i("TxtViewHolder", "起始位置：" + (end - lastStart));
@@ -108,6 +113,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
 //                    System.out.println("onBind--remainText: "+remainText);
                     mMsgTv.append(remainText);
                 }
+                mMsgTv.setTextColor(Color.WHITE);
             }
 //        }else {
 //            mMsgTv.setText(text);

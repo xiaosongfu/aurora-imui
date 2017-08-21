@@ -53,6 +53,14 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private final int TYPE_SEND_FILE = 20;
     private final int TYPE_RECEIVE_FILE = 21;
 
+    // Voice meeting message
+    private final int TYPE_SEND_VOICE_MEETING = 60;
+    private final int TYPE_RECEIVE_VOICE_MEETING = 61;
+
+    // Video meeting message
+    private final int TYPE_SEND_VIDEO_MEETING = 70;
+    private final int TYPE_RECEIVE_VIDEO_MEETING = 71;
+
     private Context mContext;
     private String mSenderId;
     private HoldersConfig mHolders;
@@ -109,6 +117,17 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mSendFileLayout, mHolders.mSendFileHolder, true);
             case TYPE_RECEIVE_FILE:
                 return getHolder(parent, mHolders.mReceiveFileLayout, mHolders.mReceiveFileHolder, false);
+
+            case TYPE_SEND_VOICE_MEETING:
+                return getHolder(parent, mHolders.mSendVoiceMeetingLayout, mHolders.mSendVoiceMeetingHolder, true);
+            case TYPE_RECEIVE_VOICE_MEETING:
+                return getHolder(parent, mHolders.mReceiveVoiceMeetingLayout, mHolders.mReceiveVoiceMeetingHolder, false);
+            case TYPE_SEND_VIDEO_MEETING:
+                return getHolder(parent, mHolders.mSendVideoMeetingLayout, mHolders.mSendVideoMeetingHolder, true);
+            case TYPE_RECEIVE_VIDEO_MEETING:
+                return getHolder(parent, mHolders.mReceiveVideoMeetingLayout, mHolders.mReceiveVideoMeetingHolder, false);
+
+
             default:
                 return getHolder(parent, mHolders.mCustomReceiveMsgLayout, mHolders.mCustomReceiveMsgHolder, false);
         }
@@ -142,6 +161,16 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_FILE;
                 case RECEIVE_FILE:
                     return TYPE_RECEIVE_FILE;
+
+                case SEND_VOICE_MEETING:
+                    return TYPE_SEND_VOICE_MEETING;
+                case RECEIVE_VOICE_MEETING:
+                    return TYPE_RECEIVE_VOICE_MEETING;
+                case SEND_VIDEO_MEETING:
+                    return TYPE_SEND_VIDEO_MEETING;
+                case RECEIVE_VIDEO_MEETING:
+                    return TYPE_RECEIVE_VIDEO_MEETING;
+
                 default:
                     return TYPE_CUSTOM_RECEIVE_MSG;
             }
@@ -597,6 +626,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendFileHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveFileHolder;
 
+
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVoiceMeetingHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVoiceMeetingHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVideoMeetingHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVideoMeetingHolder;
+
+
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
 
@@ -615,6 +651,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private int mSendFileLayout;
         private int mReceiveFileLayout;
 
+
+        private int mSendVoiceMeetingLayout;
+        private int mReceiveVoiceMeetingLayout;
+        private int mSendVideoMeetingLayout;
+        private int mReceiveVideoMeetingLayout;
+
+
         public HoldersConfig() {
             mSendTxtHolder = DefaultTxtViewHolder.class;
             mReceiveTxtHolder = DefaultTxtViewHolder.class;
@@ -631,6 +674,15 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             mSendFileHolder = DefaultFileViewHolder.class;
             mReceiveFileHolder = DefaultFileViewHolder.class;
 
+
+
+            mSendVoiceMeetingHolder = DefaultVoiceMeetingViewHolder.class;
+            mReceiveVoiceMeetingHolder = DefaultVoiceMeetingViewHolder.class;
+            mSendVideoMeetingHolder = DefaultVideoMeetingViewHolder.class;
+            mReceiveVideoMeetingHolder = DefaultVideoMeetingViewHolder.class;
+
+
+
             mSendTxtLayout = R.layout.item_send_text;
             mReceiveTxtLayout = R.layout.item_receive_txt;
 
@@ -645,6 +697,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
             mSendFileLayout = R.layout.item_send_file;
             mReceiveFileLayout = R.layout.item_receive_file;
+
+
+            mSendVoiceMeetingLayout = R.layout.item_send_voice_meeting;
+            mReceiveVoiceMeetingLayout = R.layout.item_receive_voice_meeting;
+            mSendVideoMeetingLayout = R.layout.item_send_video_meeting;
+            mReceiveVideoMeetingLayout = R.layout.item_receive_video_meeting;
 
         }
 
@@ -865,6 +923,22 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             super(itemView, isSender);
         }
     }
+
+
+
+    private static class DefaultVoiceMeetingViewHolder extends VoiceMeetingViewHolder<IMessage> {
+        public DefaultVoiceMeetingViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
+    }
+    private static class DefaultVideoMeetingViewHolder extends VideoMeetingViewHolder<IMessage> {
+        public DefaultVideoMeetingViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
+    }
+
+
+
 
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {

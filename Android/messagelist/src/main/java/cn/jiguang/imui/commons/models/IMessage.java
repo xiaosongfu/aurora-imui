@@ -44,6 +44,14 @@ public interface IMessage {
         SEND_FILE,
         RECEIVE_FILE,
 
+
+
+        SEND_VOICE_MEETING,
+        RECEIVE_VOICE_MEETING,
+        SEND_VIDEO_MEETING,
+        RECEIVE_VIDEO_MEETING,
+
+
         SEND_CUSTOM,
         RECEIVE_CUSTOM;
 

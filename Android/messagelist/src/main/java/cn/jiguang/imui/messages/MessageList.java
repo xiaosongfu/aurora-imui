@@ -2,10 +2,8 @@ package cn.jiguang.imui.messages;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 
 import cn.jiguang.imui.commons.models.IMessage;
@@ -44,9 +42,9 @@ public class MessageList extends RecyclerView {
      * @param <MESSAGE> Message model extends IMessage.
      */
     public <MESSAGE extends IMessage> void setAdapter(MsgListAdapter<MESSAGE> adapter) {
-        SimpleItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setSupportsChangeAnimations(false);
-        setItemAnimator(itemAnimator);
+//        SimpleItemAnimator itemAnimator = new DefaultItemAnimator();
+//        itemAnimator.setSupportsChangeAnimations(false);
+//        setItemAnimator(itemAnimator);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, true);

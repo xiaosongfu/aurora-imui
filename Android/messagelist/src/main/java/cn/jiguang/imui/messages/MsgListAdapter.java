@@ -71,6 +71,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
+    private OnMsgLinkClickListener mMsgLinkClickListener;
     private OnAvatarClickListener<MESSAGE> mAvatarClickListener;
     private OnMsgResendListener<MESSAGE> mMsgResendListener;
     private SelectionListener mSelectionListener;

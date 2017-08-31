@@ -20,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.Space;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -49,9 +48,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.camera.CameraNew;
 import cn.jiguang.imui.chatinput.camera.CameraOld;
@@ -795,7 +792,7 @@ public class ChatInputView extends LinearLayout
         if (mListener != null) {
             mListener.quiteFullScreen();
         }
-        Activity activity = (Activity) getContext();
+        final Activity activity = (Activity) getContext();
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activity.getWindow().setAttributes(attrs);
@@ -815,7 +812,6 @@ public class ChatInputView extends LinearLayout
         mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
         mSwitchCameraBtn.setVisibility(VISIBLE);
         mCaptureBtn.setBackgroundResource(R.drawable.aurora_menuitem_send_pres);
-        final Activity activity = (Activity) getContext();
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

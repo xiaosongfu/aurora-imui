@@ -1,6 +1,5 @@
 package cn.jiguang.imui.messages;
 
-import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -11,16 +10,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.view.CircleImageView;
+import cn.jiguang.imui.view.RoundImageView;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -28,8 +25,8 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mIsSender;
     private TextView mMsgTv;
     private TextView mDateTv;
+    private RoundImageView mAvatarIv;
     private TextView mDisplayNameTv;
-    private CircleImageView mAvatarIv;
     private ImageView mVoiceIv;
     private TextView mLengthTv;
     private ImageView mUnreadStatusIv;
@@ -38,8 +35,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mSetData = false;
     private AnimationDrawable mVoiceAnimation;
     private FileInputStream mFIS;
-    private FileDescriptor mFD;
-    private boolean mIsEarPhoneOn;
     private int mSendDrawable;
     private int mReceiveDrawable;
     private int mPlaySendAnim;
@@ -51,8 +46,8 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mVoiceIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_voice_anim);
         mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
         if (!isSender) {
@@ -133,11 +128,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 //                    mVoiceAnimation.stop();
 //                    mVoiceAnimation = null;
 //                }
+                mController.notifyAnimStop();
                 if (mIsSender) {
-                    mController.notifyAnimStop(mSendDrawable);
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
-                    mController.notifyAnimStop(mReceiveDrawable);
                     mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
@@ -190,13 +184,12 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         });
     }
 
-    private void playVoice(int position, MESSAGE message) {
-        mController.setLastPlayPosition(position);
+    public void playVoice(int position, MESSAGE message) {
+        mController.setLastPlayPosition(position, mIsSender);
         try {
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
-            mFD = mFIS.getFD();
-            mMediaPlayer.setDataSource(mFD);
+            mMediaPlayer.setDataSource(mFIS.getFD());
             if (mIsEarPhoneOn) {
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
             } else {
@@ -223,9 +216,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     }
                 }
             });
-        } catch (Exception e) {
-            Toast.makeText(mContext, mContext.getString(R.string.aurora_file_not_found_toast),
-                    Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -243,31 +234,13 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mSetData = true;
     }
 
-    public void setAudioPlayByEarPhone(int state) {
-        AudioManager audioManager = (AudioManager) mContext
-                .getSystemService(Context.AUDIO_SERVICE);
-        int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-        audioManager.setMode(AudioManager.MODE_IN_CALL);
-        if (state == 0) {
-            mIsEarPhoneOn = false;
-            audioManager.setSpeakerphoneOn(true);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
-                    AudioManager.STREAM_VOICE_CALL);
-        } else {
-            mIsEarPhoneOn = true;
-            audioManager.setSpeakerphoneOn(false);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
-                    AudioManager.STREAM_VOICE_CALL);
-        }
-    }
-
     @Override
     public void applyStyle(MessageListStyle style) {
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
         mSendDrawable = style.getSendVoiceDrawable();
         mReceiveDrawable = style.getReceiveVoiceDrawable();
+        mController.setDrawable(mSendDrawable, mReceiveDrawable);
         mPlaySendAnim = style.getPlaySendVoiceAnim();
         mPlayReceiveAnim = style.getPlayReceiveVoiceAnim();
         if (mIsSender) {
@@ -291,5 +264,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();
         mAvatarIv.setLayoutParams(layoutParams);
+        mAvatarIv.setBorderRadius(style.getAvatarRadius());
     }
 }

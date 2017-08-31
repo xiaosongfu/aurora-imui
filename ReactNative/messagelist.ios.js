@@ -61,7 +61,6 @@ export default class MessageList extends Component {
   }
 
   _onPullToRefresh(event: Event) {
-    console.log("huangmin888")
     if (!this.props.onPullToRefresh) {
       return;
     }
@@ -101,6 +100,7 @@ MessageList.propTypes = {
   dateTextSize: PropTypes.number,
   dateTextColor: PropTypes.string,
   avatarSize: PropTypes.object,
+  avatarCornerRadius: PropTypes.number,
   isShowDisplayName: PropTypes.bool,
   isShowIncommingDisplayName: PropTypes.bool,
   isShowOutgoingDisplayName: PropTypes.bool,

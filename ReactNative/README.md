@@ -24,7 +24,7 @@ dependencies {
 }
 ```
 
-
+**Attention（Android）：We are using support v4 & v7 version 25.3.1, so you should modify buildToolsVersion and compileSdkVersion to 25 or later, you can refer to sample's configuration.**
 
 ## Configuration
 
@@ -35,6 +35,9 @@ dependencies {
   > MainApplication.java
 
   ```
+  import cn.jiguang.imui.messagelist.ReactIMUIPackage;
+  ...
+
   @Override
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
@@ -50,15 +53,15 @@ dependencies {
 - ### iOS
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
-  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
-  - Before build you project ,you should build RNTAuroraIMUI.framework
+  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
+  - Before build you project ,you should build RCTAuroraIMUI.framework
 
 ## Usage
 ```
   import IMUI from 'aurora-imui-react-native';
   var MessageList = IMUI.MessageList;
   var ChatInput = IMUI.ChatInput;
-  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
+  const AuroraIMUIController = IMUI.AuroraIMUIController;
 ```
 Refer to iOS,Android example
 > [iOS Example usage](./sample/index.ios.js)
@@ -78,7 +81,7 @@ if you haven't define this property, default value is "send_succeed".**
     status: "send_going",
     msgType: "text",
     isOutgoing: true,
-    text: "text"
+    text: "text",
     fromUser: {}
 }
 
@@ -86,8 +89,8 @@ message = {  // image message
     msgId: "msgid",
     msgType: "image",
     isOutGoing: true,
-    progress: "progress string"
-    mediaPath: "image path"
+    progress: "progress string",
+    mediaPath: "image path",
     fromUser: {}
 }
 
@@ -96,8 +99,8 @@ message = {  // voice message
     msgId: "msgid",
     msgType: "voice",
     isOutGoing: true,
-    duration: number
-    mediaPath: "voice path"
+    duration: number, // this property will show in voice message bubble
+    mediaPath: "voice path",
     fromUser: {}
 }
 
@@ -106,9 +109,15 @@ message = {  // video message
     status: "send_failed",
     msgType: "video",
     isOutGoing: true,
-    druation: number
-    mediaPath: "voice path"
+    druation: number,
+    mediaPath: "voice path",
     fromUser: {}
+}
+
+message = {  // event message
+    msgId: "msgid",
+    msgType: "event",
+    text: "the event text"
 }
  ```
 
@@ -116,8 +125,8 @@ message = {  // video message
 
   ```
   fromUser = {
-    userId: ""
-    displayName: ""
+    userId: "",
+    displayName: "",
     avatarPath: "avatar image path"
   }
   ```
@@ -139,7 +148,7 @@ message = {  // video message
 
   ### MessageList append/update/insert message event:
 
-  For append/update/insert message to MessageList, you will use `MsgListModule`(Native Module) to send event to native.
+  For append/update/insert message to MessageList, you will use `AuroraIMUIController`(Native Module) to send event to native.
 
 - appendMessages([message])
 
@@ -159,7 +168,7 @@ var messages = [{
 	},
 	timeString: "10:00",
 }];
-AuroraIMUIModule.appendMessages(messages);
+AuroraIMUIController.appendMessages(messages);
 ```
 
 - updateMessage(message)
@@ -180,7 +189,7 @@ var message = {
 	},
 	timeString: "10:00",
 };
-AuroraIMUIModule.updateMessage(message);
+AuroraIMUIController.updateMessage(message);
 ```
 
 - insertMessagesToTop([message])
@@ -227,8 +236,32 @@ var messages = [{
     },
     timeString: "10:20",
 }];
-AuroraIMUIModule.insertMessagesToTop(messages);
+AuroraIMUIController.insertMessagesToTop(messages);
 ```
+
+- addMessageListDidLoadListener(cb)
+
+  AuroraIMUIController will be initialized first，show you need add this listener to get messageListDid load event. This is particularly useful in loading history messages.
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.addMessageListDidLoadListener(()=> {
+    // do something ex: insert message to top
+  })
+  ```
+
+- removeMessageListDidLoadListener(cb)
+
+  remove MessageListDidLoad listener.
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.removeMessageListDidLoadListener(cb)
+  ```
+
+  ​
 
 ### ChatInput Event
 
@@ -311,6 +344,6 @@ This Padding object includes four properties: left, top, right, bottom.
 Size object include width and height properties.
 
 - avatarSize: PropTypes.object -- Example: avatarSize = {width: 50, height: 50}
-
+- avatarCornerRadius: PropTypes.number — Example: avatarCornerRadius = {6}
 - showDisplayName: PropTypes.bool, 
 

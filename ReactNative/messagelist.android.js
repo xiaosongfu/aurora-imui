@@ -104,6 +104,10 @@ MessageList.propTypes = {
   datePadding: PropTypes.number,
   avatarSize: PropTypes.object,
   isShowDisplayName: PropTypes.bool,
+  eventMsgTxtColor: PropTypes.string,
+  eventMsgTxtPadding: PropTypes.number,
+  eventMsgTxtSize: PropTypes.number,
+  avatarCornerRadius: PropTypes.number,
   ...View.propTypes
 };
 

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
-//apply from: "$project.rootDir/tools/script-git-version.gradle"
+apply from: "$project.rootDir/tools/script-git-version.gradle"
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
-    //flavorDimensions "prod"
+    flavorDimensions "versionCode"
 
     defaultConfig {
         applicationId "imui.jiguang.cn.imuisample"
@@ -15,31 +15,33 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-//    productFlavors {
-//        dev {
-//            versionCode gitVersionCodeTime
-//            versionName gitVersionName
-//            applicationId "imui.jiguang.cn.imuisample.dev"
-//        }
-//
-//        prod {
-//            versionCode gitVersionCode
-//            versionName gitVersionName
-//            applicationId "imui.jiguang.cn.imuisample"
-//        }
-//    }
-//    buildTypes {
-//        release {
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-//                    "$project.rootDir/tools/proguard-rules.pro"
-//        }
-//        debug {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-//                    "$project.rootDir/tools/proguard-rules-debug.pro"
-//        }
-//    }
+    productFlavors {
+        dev {
+            versionCode gitVersionCodeTime
+            versionName gitVersionName
+            applicationId "imui.jiguang.cn.imuisample.dev"
+            dimension "versionCode"
+        }
+
+        prod {
+            versionCode gitVersionCode
+            versionName gitVersionName
+            applicationId "imui.jiguang.cn.imuisample"
+            dimension "versionCode"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    "$project.rootDir/tools/proguard-rules.pro"
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    "$project.rootDir/tools/proguard-rules-debug.pro"
+        }
+    }
 
     lintOptions {
         abortOnError false

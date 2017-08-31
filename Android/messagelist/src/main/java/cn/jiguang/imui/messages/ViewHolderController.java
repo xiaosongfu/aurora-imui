@@ -13,6 +13,9 @@ public class ViewHolderController {
     private static ViewHolderController mInstance = new ViewHolderController();
     private HashMap<Integer, ImageView> mData = new LinkedHashMap<>();
     private int mLastPlayPosition = -1;
+    private boolean mIsSender;
+    private int mSendDrawable;
+    private int mReceiveDrawable;
 
     private ViewHolderController() {
 
@@ -26,21 +29,27 @@ public class ViewHolderController {
         mData.put(position, view);
     }
 
-    public void setLastPlayPosition(int position) {
+    public void setLastPlayPosition(int position, boolean isSender) {
         mLastPlayPosition = position;
+        mIsSender = isSender;
     }
 
     public int getLastPlayPosition() {
         return mLastPlayPosition;
     }
 
-    public void notifyAnimStop(int resId) {
+    public void notifyAnimStop() {
         ImageView imageView = mData.get(mLastPlayPosition);
         try {
             if (imageView != null) {
                 AnimationDrawable anim = (AnimationDrawable) imageView.getDrawable();
                 anim.stop();
-                imageView.setImageResource(resId);
+                if (mIsSender) {
+                    imageView.setImageResource(mSendDrawable);
+                } else {
+                    imageView.setImageResource(mReceiveDrawable);
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,7 +58,7 @@ public class ViewHolderController {
     }
 
     public void remove(int position) {
-        if (mData.size() > 0) {
+        if (null != mData && mData.size() > 0) {
             mData.remove(position);
         }
     }
@@ -59,4 +68,8 @@ public class ViewHolderController {
         mData = null;
     }
 
+    public void setDrawable(int sendDrawable, int receiveDrawable) {
+        mSendDrawable = sendDrawable;
+        mReceiveDrawable = receiveDrawable;
+    }
 }

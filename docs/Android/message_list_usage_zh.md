@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.0'
+compile 'cn.jiguang.imui:messagelist:0.4.6'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.4.0'
+  compile 'com.github.jpush:imui:0.5.0'
 }
 ```
 
@@ -66,8 +66,8 @@ dependencies {
 MsgListAdapter 的构造函数有三个参数：
 
 1. Sender Id: 发送方 Id(唯一标识)。
-2. HoldersConfig，可以用这个对象来[构造自定义消息的 ViewHolder 及布局界面](./customLayout.md)。
-3. ImageLoader 的实例，用来展示头像。如果为空，将会隐藏头像。（[点击](./imageLoader.md)了解更多关于 ImageLoader 的内容）。
+2. HoldersConfig，可以用这个对象来[构造自定义消息的 ViewHolder 及布局界面](./custom_layout_zh.md)。
+3. ImageLoader 的实例，用来展示头像。如果为空，将会隐藏头像。（[点击](./image_loader_zh.md)了解更多关于 ImageLoader 的内容）。
 
 ```java
 MsgListAdapter adapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
@@ -197,7 +197,7 @@ adapter.addToEnd(messages);
 ```
 
 - 滚动列表加载历史消息
-设置监听 `OnLoadMoreListener`，当滚动列表时就会触发 `onLoadMore` 事件，例如：
+  设置监听 `OnLoadMoreListener`，当滚动列表时就会触发 `onLoadMore` 事件，例如：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override

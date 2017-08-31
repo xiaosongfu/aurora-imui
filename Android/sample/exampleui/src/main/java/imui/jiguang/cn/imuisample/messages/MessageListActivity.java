@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -41,6 +44,7 @@ import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.commons.ImageLoader;
+import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import imui.jiguang.cn.imuisample.R;
@@ -128,7 +132,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void switchToMicrophoneMode() {
+            public boolean switchToMicrophoneMode() {
                 String[] perms = new String[]{
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -139,10 +143,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                             getResources().getString(R.string.rationale_record_voice),
                             RC_RECORD_VOICE, perms);
                 }
+                return true;
             }
 
             @Override
-            public void switchToGalleryMode() {
+            public boolean switchToGalleryMode() {
                 String[] perms = new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 };
@@ -152,10 +157,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                             getResources().getString(R.string.rationale_photo),
                             RC_PHOTO, perms);
                 }
+                return true;
             }
 
             @Override
-            public void switchToCameraMode() {
+            public boolean switchToCameraMode() {
                 String[] perms = new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA,
@@ -169,8 +175,10 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 } else {
                     File rootDir = getFilesDir();
                     String fileDir = rootDir.getAbsolutePath() + "/photo";
-                    mChatView.setCameraCaptureFile(fileDir, "temp_photo");
+                    mChatView.setCameraCaptureFile(fileDir, new SimpleDateFormat("yyyy-MM-dd-hhmmss",
+                            Locale.getDefault()).format(new Date()));
                 }
+                return true;
             }
 
             @Override
@@ -217,10 +225,13 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setRecordVoiceListener(new RecordVoiceListener() {
             @Override
             public void onStartRecord() {
-                // Show record voice interface
-                File rootDir = getFilesDir();
-                String fileDir = rootDir.getAbsolutePath() + "/voice";
-                mChatView.setRecordVoiceFile(fileDir, DateFormat.format("yyyy_MMdd_hhmmss",
+                // set voice file path, after recording, audio file will save here
+                String path = Environment.getExternalStorageDirectory().getPath() + "/voice";
+                File destDir = new File(path);
+                if (!destDir.exists()) {
+                    destDir.mkdirs();
+                }
+                mChatView.setRecordVoiceFile(destDir.getPath(), DateFormat.format("yyyy-MM-dd-hhmmss",
                         Calendar.getInstance(Locale.CHINA)) + "");
             }
 
@@ -274,7 +285,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setOnTouchEditTextListener(new OnClickEditTextListener() {
             @Override
             public void onTouchEditText() {
-                mAdapter.getLayoutManager().scrollToPosition(0);
+//                mAdapter.getLayoutManager().scrollToPosition(0);
             }
         });
     }
@@ -350,7 +361,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
-
         // If you want to customise your layout, try to create custom ViewHolder:
         // holdersConfig.setSenderTxtMsg(CustomViewHolder.class, layoutRes);
         // holdersConfig.setReceiverTxtMsg(CustomViewHolder.class, layoutRes);
@@ -406,12 +416,13 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
-
+        mAdapter.addToStart(message, true);
         mAdapter.addToEnd(mData);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page, int totalCount) {
-                if (totalCount < mData.size()) {
+                if (totalCount <= mData.size()) {
+                    Log.i("MessageListActivity", "Loading next page");
                     loadNextPage();
                 }
             }
@@ -460,6 +471,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         if (oldh - h > 300) {
             mChatView.setMenuHeight(oldh - h);
         }
+        mAdapter.getLayoutManager().scrollToPosition(0);
     }
 
     @Override

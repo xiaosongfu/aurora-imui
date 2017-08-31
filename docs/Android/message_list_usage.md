@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.0'
+compile 'cn.jiguang.imui:messagelist:0.4.6'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.4.0'
+    compile 'com.github.jpush:imui:0.5.0'
 }
 ```
 
@@ -67,8 +67,8 @@ We have define many kinds of attributes, to support user to adjust their layout,
 
 ### 2. Construct adapter
 Adapter's constructor has three parameters. The first one is `sender id`, the id of sender, the second one is `HoldersConfig object`,
-you can use this object to [construct your custom ViewHolder and layout](./customLayoutEn.md), the third one is implement of `ImageLoader`,
-use to display user's avatar, if this value is null, will not display avatar.([Click here to know more about ImageLoader](./imageLoadEn.md))
+you can use this object to [construct your custom ViewHolder and layout](./custom_layout.md), the third one is implement of `ImageLoader`,
+use to display user's avatar, if this value is null, will not display avatar.([Click here to know more about ImageLoader](./image_loader.md))
 
 ```java
 MsgListAdapter adapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
@@ -203,7 +203,7 @@ adapter.addToEnd(messages);
 ```
 
 - Scroll to load history messages
-After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
+  After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override

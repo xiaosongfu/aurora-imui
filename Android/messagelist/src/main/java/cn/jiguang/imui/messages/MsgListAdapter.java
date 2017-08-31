@@ -1,6 +1,7 @@
 package cn.jiguang.imui.messages;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +44,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private final int TYPE_RECEIVE_VIDEO = 9;
 
     // Group change message
-    private final int TYPE_GROUP_CHANGE = 10;
+    private final int TYPE_EVENT = 10;
 
     // Custom message
     private final int TYPE_CUSTOM_SEND_MSG = 11;
@@ -70,26 +71,62 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
-    private OnMsgLinkClickListener mMsgLinkClickListener;
     private OnAvatarClickListener<MESSAGE> mAvatarClickListener;
     private OnMsgResendListener<MESSAGE> mMsgResendListener;
     private SelectionListener mSelectionListener;
     private int mSelectedItemCount;
     private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
-    private MediaPlayer mMediaPlayer = new MediaPlayer();
-
+    private MediaPlayer mMediaPlayer;
+    private boolean mIsEarPhoneOn;
     private List<Wrapper> mItems;
+    private boolean mScroll;
 
     public MsgListAdapter(String senderId, ImageLoader imageLoader) {
         this(senderId, new HoldersConfig(), imageLoader);
     }
 
     public MsgListAdapter(String senderId, HoldersConfig holders, ImageLoader imageLoader) {
+        mMediaPlayer = new MediaPlayer();
         mSenderId = senderId;
         mHolders = holders;
         mImageLoader = imageLoader;
         mItems = new ArrayList<>();
+    }
+
+    public void setScrolling(boolean scroll) {
+        this.mScroll = scroll;
+    }
+
+    public boolean getScrolling() {
+        return this.mScroll;
+    }
+
+    public void setAudioPlayByEarPhone(int state) {
+        AudioManager audioManager = (AudioManager) mContext
+                .getSystemService(Context.AUDIO_SERVICE);
+        int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        if (state == 0) {
+            mIsEarPhoneOn = false;
+            audioManager.setSpeakerphoneOn(true);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                    AudioManager.STREAM_VOICE_CALL);
+        } else {
+            mIsEarPhoneOn = true;
+            audioManager.setSpeakerphoneOn(false);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
+                    AudioManager.STREAM_VOICE_CALL);
+        }
+    }
+
+    public void pauseVoice() {
+        try {
+            mMediaPlayer.pause();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -99,6 +136,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder, true);
             case TYPE_RECEIVE_TXT:
                 return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder, false);
+            case TYPE_SEND_LOCATION:
+                return getHolder(parent, mHolders.mSendLocationLayout, mHolders.mSendLocationHolder, true);
+            case TYPE_RECEIVER_LOCATION:
+                return getHolder(parent, mHolders.mReceiveLocationLayout, mHolders.mReceiveLocationHolder, false);
             case TYPE_SEND_VOICE:
                 return getHolder(parent, mHolders.mSendVoiceLayout, mHolders.mSendVoiceHolder, true);
             case TYPE_RECEIVER_VOICE:
@@ -111,6 +152,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
             case TYPE_RECEIVE_VIDEO:
                 return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
+            case TYPE_EVENT:
+                return getHolder(parent, mHolders.mEventLayout, mHolders.mEventMsgHolder, true);
             case TYPE_CUSTOM_SEND_MSG:
                 return getHolder(parent, mHolders.mCustomSendMsgLayout, mHolders.mCustomSendMsgHolder, true);
             case TYPE_SEND_FILE:
@@ -143,6 +186,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_TXT;
                 case RECEIVE_TEXT:
                     return TYPE_RECEIVE_TXT;
+                case SEND_LOCATION:
+                    return TYPE_SEND_LOCATION;
+                case RECEIVE_LOCATION:
+                    return TYPE_RECEIVER_LOCATION;
                 case SEND_VOICE:
                     return TYPE_SEND_VOICE;
                 case RECEIVE_VOICE:
@@ -155,6 +202,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_VIDEO;
                 case RECEIVE_VIDEO:
                     return TYPE_RECEIVE_VIDEO;
+                case EVENT:
+                    return TYPE_EVENT;
                 case SEND_CUSTOM:
                     return TYPE_CUSTOM_SEND_MSG;
                 case SEND_FILE:
@@ -212,6 +261,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
             ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
+            ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
+            ((BaseMessageViewHolder) holder).mIsEarPhoneOn = this.mIsEarPhoneOn;
         }
         holder.onBind(wrapper.item);
     }
@@ -611,6 +662,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveTxtHolder;
 
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendLocationHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveLocationHolder;
+
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVoiceHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVoiceHolder;
 
@@ -622,6 +676,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomSendMsgHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomReceiveMsgHolder;
+
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mEventMsgHolder;
 
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendFileHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveFileHolder;
@@ -636,6 +692,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
 
+        private int mSendLocationLayout;
+        private int mReceiveLocationLayout;
+
         private int mSendVoiceLayout;
         private int mReceiveVoiceLayout;
 
@@ -647,6 +706,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private int mCustomSendMsgLayout;
         private int mCustomReceiveMsgLayout;
+
+        private int mEventLayout;
 
         private int mSendFileLayout;
         private int mReceiveFileLayout;
@@ -694,6 +755,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
             mSendVideoLayout = R.layout.item_send_video;
             mReceiveVideoLayout = R.layout.item_receive_video;
+
+            mEventMsgHolder = DefaultEventMsgViewHolder.class;
+            mEventLayout = R.layout.item_event_message;
 
             mSendFileLayout = R.layout.item_send_file;
             mReceiveFileLayout = R.layout.item_receive_file;
@@ -886,6 +950,25 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             this.mCustomReceiveMsgLayout = layout;
         }
 
+        public void setSendLocationMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                       @LayoutRes int layout) {
+            this.mSendLocationHolder = holder;
+            this.mSendLocationLayout = layout;
+        }
+
+        public void setReceiveLocationMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                          @LayoutRes int layout) {
+            this.mReceiveLocationHolder = holder;
+            this.mReceiveLocationLayout = layout;
+        }
+
+
+        public void setEventMessage(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                    @LayoutRes int layout) {
+            this.mEventMsgHolder = holder;
+            this.mEventLayout = layout;
+        }
+
     }
 
     private static class DefaultTxtViewHolder extends TxtViewHolder<IMessage> {
@@ -913,6 +996,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private static class DefaultVideoViewHolder extends VideoViewHolder<IMessage> {
 
         public DefaultVideoViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
+    }
+
+    private static class DefaultEventMsgViewHolder extends EventViewHolder<IMessage> {
+        public DefaultEventMsgViewHolder(View itemView, boolean isSender) {
             super(itemView, isSender);
         }
     }

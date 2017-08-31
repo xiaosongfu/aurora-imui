@@ -12,7 +12,7 @@ import android.widget.TextView;
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.view.CircleImageView;
+import cn.jiguang.imui.view.RoundImageView;
 
 public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -21,7 +21,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private TextView mDateTv;
     private TextView mDisplayNameTv;
     private ImageView mPhotoIv;
-    private CircleImageView mAvatarIv;
+    private RoundImageView mAvatarIv;
     private ProgressBar mSendingPb;
     private ImageButton mResendIb;
 
@@ -32,7 +32,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
         mPhotoIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_photo);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         if (mIsSender) {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
             mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
@@ -58,7 +58,12 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mImageLoader.loadAvatarImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
         }
 
-        mImageLoader.loadImage(mPhotoIv, message.getMediaFilePath());
+        if (mScroll) {
+            mPhotoIv.setImageResource(R.drawable.aurora_picture_not_found);
+        } else {
+            mImageLoader.loadImage(mPhotoIv, message.getMediaFilePath());
+        }
+
 
         mAvatarIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +148,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();
         mAvatarIv.setLayoutParams(layoutParams);
+        mAvatarIv.setBorderRadius(style.getAvatarRadius());
     }
 
 }

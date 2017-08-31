@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.2.0'
+compile 'cn.jiguang.imui:chatinput:0.4.6'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.2.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.2.0</version>
+  <version>0.4.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  compile 'com.github.jpush:imui:0.2.0'
+  compile 'com.github.jpush:imui:0.5.0'
 }
 ```
 
@@ -105,24 +105,44 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
     }
 
     @Override
-    public void switchToMicrophoneMode() {
+    public boolean switchToMicrophoneMode() {
         // click mic button in menu item, fires before showing record voice widget
+      // return true will use default interface, otherwise you should return false and show your interface
+      return true;
     }
 
     @Override
-    public void switchToGalleryMode() {
+    public boolean switchToGalleryMode() {
         // click photo button in menu item, fires before showing select photo widget
+      // return true will use default interface, otherwise you should return false and show your interface
+      return true;
     }
 
     @Override
-    public void switchToCameraMode() {
+    public boolean switchToCameraMode() {
         // click camera button in menu item, fires before showing camera widget
+      // return true will use default interface, otherwise you should return false and show your interface
+      return true;
     }
 });
 ```
 
 As for how to handle these events and what to do with these events, you can refer sample project for detail.
 
+
+
+### OnClickEditTextListener
+
+Callback of click EditText，fires when click EidtText, usage：
+
+```
+mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
+            @Override
+            public void onTouchEditText() {
+                mAdapter.getLayoutManager().scrollToPosition(0);
+            }
+        });
+```
 #### RecordVoiceListener
 This is the interface of record voice, the way to use:
 
@@ -192,11 +212,14 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 });
 ```
 
-#### Set file path and file name that after taken picture
+#### Set file path and file name that after taken picture(Deprecated since 0.4.5)
 setCameraCaptureFile(String path, String fileName)
+
+Since 0.4.5, take picture will return default path.
 
 ```java
 // The first parameter is file path that saved at, second one is file name
 // Suggest calling this method when onCameraClick fires
+// Deprecated since 0.4.5
 mChatInput.setCameraCaptureFile(path, fileName);
 ```

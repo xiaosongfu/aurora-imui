@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.2.0'
+compile 'cn.jiguang.imui:chatinput:0.4.6'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.2.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.2.0</version>
+  <version>0.4.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.2.0'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.2.0'
+    compile 'com.github.jpush:imui:0.5.0'
   }
   ```
 
@@ -94,22 +94,46 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
     }
 
     @Override
-    public void switchToMicrophoneMode() {
+    public boolean switchToMicrophoneMode() {
         // 点击语音按钮触发事件，显示录音界面前触发此事件
+        // 返回 true 表示使用默认的界面，若返回 false 应该自己实现界面
+        return true;
     }
 
     @Override
-    public void switchToGalleryMode() {
+    public boolean switchToGalleryMode() {
         // 点击图片按钮触发事件，显示图片选择界面前触发此事件
+        // 返回 true 表示使用默认的界面
+        return true;
     }
 
     @Override
-    public void switchToCameraMode() {
+    public boolean switchToCameraMode() {
         // 点击拍照按钮触发事件，显示拍照界面前触发此事件
+        // 返回 true 表示使用默认的界面
+        return true;
     }
 });
 ```
 关于上述事件的处理，可以参考 sample 中的 MessageListActivity 对于事件的处理。
+
+
+
+### OnClickEditTextListener
+
+监听输入框点击事件，点击输入框后触发此事件。用法：
+
+```
+mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
+            @Override
+            public void onTouchEditText() {
+                mAdapter.getLayoutManager().scrollToPosition(0);
+            }
+        });
+```
+
+
+
 
 ### RecordVoiceListener
 这是录音的接口，使用方式：
@@ -178,9 +202,13 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 });
 ```
 
-### 设置拍照后保存的文件
+### 设置拍照后保存的文件(0.4.5 版本后弃用)
 `setCameraCaptureFile(String path, String fileName)`
+
+0.4.5 版本后拍照会返回默认路径。
+
 ```java
 // 参数分别是路径及文件名，建议在上面的 onCameraClick 触发时调用
+// 0.4.5 后弃用
 mChatInput.setCameraCaptureFile(path, fileName);
 ```

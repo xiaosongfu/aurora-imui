@@ -12,7 +12,6 @@ react-native link
 ```
 include ':app', ':aurora-imui-react-native'
 project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
-
 ```
 
 然后在 app 的 `build.gradle`中引用：
@@ -23,7 +22,7 @@ dependencies {
 }
 ```
 
-
+**注意事项（Android）：我们使用了 support v4, v7 25.3.1 版本，因此需要将你的 build.gradle 中 buildToolsVersion 及 compiledSdkVersion 改为 25 以上。可以参考 sample 的配置。**
 
 ## 配置
 
@@ -34,6 +33,9 @@ dependencies {
   > MainApplication.java
 
   ```
+  import cn.jiguang.imui.messagelist.ReactIMUIPackage;
+  ...
+
   @Override
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
@@ -43,7 +45,6 @@ dependencies {
   }
   ```
 
-  - import IMUI from 'aurora-imui-react-native';
 
 
 
@@ -64,7 +65,7 @@ import {
 import IMUI from 'aurora-imui-react-native';
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
-const AuroraIMUIModule = NativeModules.AuroraIMUIModule;// the IMUI controller, use it to add message to messageList.
+const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, use it to operate  messageList.
 
 // render() 中加入视图标签
 <MessageListView />
@@ -105,7 +106,7 @@ message = {  // voice message
     msgId: "msgid",
     msgType: "voice",
     isOutGoing: true,
-    duration: number
+    duration: number, // 注意这个值有用户自己设置时长，单位秒
     mediaPath: "voice path"
     fromUser: {}
 }
@@ -118,6 +119,12 @@ message = {  // video message
     druation: number
     mediaPath: "voice path"
     fromUser: {}
+}
+
+message = {  // event message
+    msgId: "msgid",
+    msgType: "event",
+    text: "the event text"
 }
  ```
 
@@ -146,7 +153,7 @@ message = {  // video message
 
   ### MessageList append/update/insert 消息事件:
 
-  插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIModule (Native Module) 来发送事件到 Native。
+  插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIController (Native Module) 来发送事件到 Native。
 
 - appendMessages([message])
 
@@ -166,7 +173,7 @@ var messages = [{
 	},
 	timeString: "10:00",
 }];
-AuroraIMUIModule.appendMessages(messages);
+AuroraIMUIController.appendMessages(messages);
 ```
 
 - updateMessage(message)
@@ -187,7 +194,7 @@ var message = {
 	},
 	timeString: "10:00",
 };
-AuroraIMUIModule.updateMessage(message);
+AuroraIMUIController.updateMessage(message);
 ```
 
 - insertMessagesToTop([message])
@@ -234,8 +241,30 @@ var messages = [{
     },
     timeString: "10:20",
 }];
-AuroraIMUIModule.insertMessagesToTop(messages);
+AuroraIMUIController.insertMessagesToTop(messages);
 ```
+
+- addMessageListDidLoadListener(cb)
+
+  `AuroraIMUIController` 初始化会先于 `MessageListView` 完成，如果需要调用对 `MessageListView` 的所有操作(添加消息，删除消息，更新消息)需要在 `MessageListDidLoad`事件触发后才会起作用。
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.addMessageListDidLoadListener(()=> {
+    // do something ex: insert message to top
+  })
+  ```
+
+- removeMessageListDidLoadListener(cb)
+
+  取消对 `MessageListDidLoad` 事件的监听。
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.removeMessageListDidLoadListener(cb)
+  ```
 
 ### ChatInput 事件
 
@@ -316,6 +345,6 @@ padding 对象包括四个属性: left, top, right, bottom.
 
 
 - avatarSize: PropTypes.object -- 这个对象有宽高两个属性，Example: avatarSize = {width: 50, height: 50}
-
+- avatarCornerRadius: PropTypes.number — 设置头像圆角半径Example: avatarCornerRadius = {6}
 - showDisplayName: PropTypes.bool, 
 

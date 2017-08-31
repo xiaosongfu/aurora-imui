@@ -56,6 +56,8 @@ import java.util.Locale;
 import cn.jiguang.imui.chatinput.camera.CameraNew;
 import cn.jiguang.imui.chatinput.camera.CameraOld;
 import cn.jiguang.imui.chatinput.camera.CameraSupport;
+import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
+import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
@@ -69,7 +71,7 @@ import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
-        OnFileSelectedListener {
+        OnFileSelectedListener, CameraEventListener {
 
     public static final byte KEYBOARD_STATE_SHOW = -3;
     public static final byte KEYBOARD_STATE_HIDE = -2;
@@ -117,6 +119,7 @@ public class ChatInputView extends LinearLayout
     private OnMenuClickListener mListener;
     private OnCameraCallbackListener mCameraListener;
     private OnClickEditTextListener mEditTextListener;
+    private CameraControllerListener mCameraControllerListener;
 
     private ChatInputStyle mStyle;
 
@@ -152,7 +155,6 @@ public class ChatInputView extends LinearLayout
     private FileInputStream mFIS;
     private FileDescriptor mFD;
     private boolean mIsEarPhoneOn;
-
     private File mPhoto;
     private CameraSupport mCameraSupport;
     private int mCameraId = -1;
@@ -323,6 +325,10 @@ public class ChatInputView extends LinearLayout
         mCameraListener = listener;
     }
 
+    public void setCameraControllerListener(CameraControllerListener listener) {
+        mCameraControllerListener = listener;
+    }
+
     public void setOnClickEditTextListener(OnClickEditTextListener listener) {
         mEditTextListener = listener;
     }
@@ -414,50 +420,35 @@ public class ChatInputView extends LinearLayout
                 }
 
                 if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
-                    if (mListener != null) {
-                        mListener.switchToMicrophoneMode();
+                    if (mListener != null && mListener.switchToMicrophoneMode()) {
+                        showRecordVoiceLayout();
                     }
-                    showRecordVoiceLayout();
-
                 } else if (view.getId() == R.id.aurora_framelayout_menuitem_photo) {
-                    if (mListener != null) {
-                        mListener.switchToGalleryMode();
+                    if (mListener != null && mListener.switchToGalleryMode()) {
+                        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        dismissRecordVoiceLayout();
+                        dismissCameraLayout();
+                        mSelectPhotoView.setVisibility(VISIBLE);
+                        mSelectPhotoView.initData();
+                        if (mCameraSupport != null) {
+                            mCameraSupport.release();
+                            mCameraSupport = null;
+                        }
                     }
-                    if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    dismissRecordVoiceLayout();
-                    dismissCameraLayout();
-                    mSelectPhotoView.setVisibility(VISIBLE);
-                    mSelectPhotoView.initData();
-                    if (mCameraSupport != null) {
-                        mCameraSupport.release();
-                        mCameraSupport = null;
-                    }
-
                 } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
-                    if (mListener != null) {
-                        mListener.switchToCameraMode();
-                    }
-                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                        if (mPhoto == null) {
-                            String path = getContext().getFilesDir().getAbsolutePath() + "/photo";
-                            File destDir = new File(path);
-                            if (!destDir.exists()) {
-                                destDir.mkdirs();
+                    if (mListener != null && mListener.switchToCameraMode()) {
+                        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                            if (mCameraSupport == null) {
+                                initCamera();
                             }
-                            mPhoto = new File(destDir,
-                                    DateFormat.format("yyyy_MMdd_hhmmss", Calendar.getInstance(Locale.CHINA))
-                                            + ".png");
+                            showCameraLayout();
+                        } else {
+                            Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
+                                    Toast.LENGTH_SHORT).show();
                         }
-                        if (mCameraSupport == null) {
-                            initCamera();
-                        }
-                        showCameraLayout();
-                    } else {
-                        Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
-                                Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -505,8 +496,14 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.aurora_ib_camera_full_screen) {
             // full screen/recover screen button in texture view
             if (!mIsFullScreen) {
+                if (mCameraControllerListener != null) {
+                    mCameraControllerListener.onFullScreenClick();
+                }
                 fullScreen();
             } else {
+                if (mCameraControllerListener != null) {
+                    mCameraControllerListener.onRecoverScreenClick();
+                }
                 recoverScreen();
             }
 
@@ -575,9 +572,6 @@ public class ChatInputView extends LinearLayout
                 // take picture and send it
             } else {
                 mCameraSupport.takePicture();
-                if (mIsFullScreen) {
-                    recoverScreen();
-                }
             }
         } else if (view.getId() == R.id.aurora_ib_camera_close) {
             try {
@@ -728,7 +722,7 @@ public class ChatInputView extends LinearLayout
             mCameraSupport = new CameraOld(getContext(), mTextureView);
         }
         mCameraSupport.setCameraCallbackListener(mCameraListener);
-        mCameraSupport.setOutputFile(mPhoto);
+        mCameraSupport.setCameraEventListener(this);
         for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
@@ -751,7 +745,7 @@ public class ChatInputView extends LinearLayout
                 public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width,
                                                         int height) {
                     Log.e("ChatInputView", "Texture size changed, Opening camera");
-                    if (mTextureView.getVisibility() == VISIBLE) {
+                    if (mTextureView.getVisibility() == VISIBLE && mCameraSupport != null) {
                         mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
                     }
                 }
@@ -821,6 +815,31 @@ public class ChatInputView extends LinearLayout
         mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
         mSwitchCameraBtn.setVisibility(VISIBLE);
         mCaptureBtn.setBackgroundResource(R.drawable.aurora_menuitem_send_pres);
+        final Activity activity = (Activity) getContext();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+                attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                activity.getWindow().setAttributes(attrs);
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                mIsFullScreen = false;
+                mCloseBtn.setVisibility(GONE);
+                mFullScreenBtn.setBackgroundResource(R.drawable.aurora_preview_full_screen);
+                mFullScreenBtn.setVisibility(VISIBLE);
+                mChatInputContainer.setVisibility(VISIBLE);
+                mMenuItemContainer.setVisibility(VISIBLE);
+                setMenuContainerHeight(sMenuHeight);
+                ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, sMenuHeight);
+                mTextureView.setLayoutParams(params);
+                mRecordVideoBtn.setBackgroundResource(R.drawable.aurora_preview_record_video);
+                mRecordVideoBtn.setVisibility(VISIBLE);
+                mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
+                mSwitchCameraBtn.setVisibility(VISIBLE);
+                mCaptureBtn.setBackgroundResource(R.drawable.aurora_menuitem_send_pres);
+            }
+        });
     }
 
     public void dismissMenuLayout() {
@@ -901,7 +920,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Select aurora_menuitem_photo callback
+     * Select photo callback
      */
     @Override
     public void onFileSelected() {
@@ -1015,12 +1034,13 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Set aurora_menuitem_camera capture file path and file name. If user didn't invoke this method, will save in
+     * Set camera capture file path and file name. If user didn't invoke this method, will save in
      * default path.
      *
      * @param path     Photo to be saved in.
      * @param fileName File name.
      */
+    @Deprecated
     public void setCameraCaptureFile(String path, String fileName) {
         File destDir = new File(path);
         if (!destDir.exists()) {
@@ -1154,6 +1174,13 @@ public class ChatInputView extends LinearLayout
             if (mCameraSupport != null) {
                 mCameraSupport.release();
             }
+        }
+    }
+
+    @Override
+    public void onFinishTakePicture() {
+        if (mIsFullScreen) {
+            recoverScreen();
         }
     }
 

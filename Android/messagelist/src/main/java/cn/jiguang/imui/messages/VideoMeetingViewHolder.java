@@ -4,13 +4,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.view.CircleImageView;
+import cn.jiguang.imui.view.RoundImageView;
 
 public class VideoMeetingViewHolder<MESSAGE extends IMessage>
         extends BaseMessageViewHolder<MESSAGE>
@@ -19,7 +20,7 @@ public class VideoMeetingViewHolder<MESSAGE extends IMessage>
     protected TextView mMsgTv;
     protected TextView mDateTv;
     protected TextView mDisplayNameTv;
-    protected CircleImageView mAvatarIv;
+    protected RoundImageView mAvatarIv;
     protected ImageButton mResendIb;
     protected ProgressBar mSendingPb;
     protected boolean mIsSender;
@@ -29,7 +30,7 @@ public class VideoMeetingViewHolder<MESSAGE extends IMessage>
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
@@ -158,7 +159,7 @@ public class VideoMeetingViewHolder<MESSAGE extends IMessage>
         return mMsgTv;
     }
 
-    public CircleImageView getAvatar() {
+    public ImageView getAvatar() {
         return mAvatarIv;
     }
 

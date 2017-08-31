@@ -54,7 +54,7 @@
                 android:layout_marginLeft="4dp"/>
         </LinearLayout>
 
-        <cn.jiguang.imui.view.CircleImageView
+        <cn.jiguang.imui.view.RoundImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
             style="@style/aurora_msgitem_sender_avatar_style"/>
 

@@ -35,7 +35,7 @@
                 android:id="@+id/file_icon_iv"
                 android:layout_width="22dp"
                 android:layout_height="20dp"
-                android:src="@drawable/attachment_icon"/>
+                android:src="@drawable/voice_meeting_icon"/>
             <TextView
                 android:id="@+id/aurora_tv_msgitem_message"
                 android:layout_width="wrap_content"

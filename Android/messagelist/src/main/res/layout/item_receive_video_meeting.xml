@@ -36,7 +36,7 @@
                 style="@style/aurora_msgitem_msg_txt_style"
                 android:layout_width="22dp"
                 android:layout_height="20dp"
-                android:src="@drawable/attachment_icon"
+                android:src="@drawable/video_meeting_icon"
                 android:layout_centerVertical="true" />
             <TextView
                 android:id="@+id/aurora_tv_msgitem_message"

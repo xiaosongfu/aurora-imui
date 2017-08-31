@@ -50,7 +50,7 @@
                 android:id="@+id/file_icon_iv"
                 android:layout_width="22dp"
                 android:layout_height="20dp"
-                android:src="@drawable/attachment_icon"
+                android:src="@drawable/video_meeting_icon"
                 android:layout_marginLeft="4dp"/>
         </LinearLayout>
 

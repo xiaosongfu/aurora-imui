@@ -17,4 +17,6 @@
     <color name="aurora_msg_send_bubble_selected_color">#d3d9df</color>
     <color name="aurora_msg_send_text_color">#7587a8</color>
 
+    <!--超链接的字体颜色-->
+    <color name="hyper_txt_link_color">#29A0FF</color>
 </resources>

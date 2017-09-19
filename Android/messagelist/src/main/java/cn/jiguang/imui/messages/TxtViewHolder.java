@@ -1,10 +1,13 @@
 package cn.jiguang.imui.messages;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -75,6 +78,8 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                             }
                         }
                     }, 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    // 字体颜色
+                    spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(itemView.getContext(), R.color.hyper_txt_link_color)), 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     int subStart = start - lastStart;
                     String front = remainText.substring(0, subStart);//截取出一段文字+一段url
                     remainText = remainText.substring(end - lastStart, remainText.length());//剩下的部分

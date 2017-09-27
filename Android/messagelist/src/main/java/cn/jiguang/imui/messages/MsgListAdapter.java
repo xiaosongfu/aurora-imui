@@ -553,7 +553,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * Callback will invoked when the link content is clicked
      */
     public interface OnMsgLinkClickListener {
-        void onMessageLinkClick(String linkContent, String url);
+        void onMessageLinkClick(int tag, String linkContent, String url);
     }
 
     public void setOnMsgLinkClickListener(OnMsgLinkClickListener listener) {

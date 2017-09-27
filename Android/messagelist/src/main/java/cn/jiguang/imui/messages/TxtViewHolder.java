@@ -125,7 +125,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                         @Override
                         public void onClick(View widget) {
                             if (mMsgLinkClickListener != null) {
-                                mMsgLinkClickListener.onMessageLinkClick(blueText, url);
+                                mMsgLinkClickListener.onMessageLinkClick(message.getMsgTag(), blueText, url);
                             }
                         }
                     }, 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

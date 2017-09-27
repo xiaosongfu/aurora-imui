@@ -90,4 +90,9 @@ public class MyMessage implements IMessage {
     public String getMediaFilePath() {
         return mediaFilePath;
     }
+
+    @Override
+    public int getMsgTag() {
+        return 0;
+    }
 }

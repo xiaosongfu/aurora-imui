@@ -11,6 +11,12 @@ public interface IMessage {
     String getMsgId();
 
     /**
+     * Message MsgTag.
+     * @return unique
+     */
+    int getMsgTag();
+
+    /**
      * Get user info of message.
      * @return UserInfo of message
      */

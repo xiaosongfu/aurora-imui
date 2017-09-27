@@ -56,10 +56,61 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             return;
         }
         if (IMessage.MessageType.RECEIVE_TEXT == message.getType()) {
+//            Object[][] output = HyperLinkParseUtil.parseLinks(text);
+//            if (output == null || output.length == 0 || output[0] == null || output[0].length == 0) {
+//                mMsgTv.setText(message.getText());
+//            } else {
+//                int urlCount = output[0].length;
+//                Log.i("TxtViewHolder", "一共有" + urlCount + "个url");
+//                String remainText = text;
+//                int lastStart = 0;//截取到一部分后截掉部分的长度
+//                for (int i = 0; i < urlCount; i++) {
+//                    final String blueText = (String) output[0][i];//带下划线的文字
+//                    final String url = (String) output[1][i];//下划线文字所对应的url连接
+//                    int start = (int) output[2][i];//<a>标签在源字符串的起始位置
+//                    int end = (int) output[3][i];//<a>标签在源字符串的结束位置
+//                    SpannableString spannableString = new SpannableString(blueText);
+//                    spannableString.setSpan(new ClickableSpan() {
+//                        @Override
+//                        public void onClick(View widget) {
+//                            if (mMsgLinkClickListener != null) {
+//                                mMsgLinkClickListener.onMessageLinkClick(blueText, url);
+//                            }
+//                        }
+//                    }, 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    // 字体颜色
+//                    spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(itemView.getContext(), R.color.hyper_txt_link_color)), 0, blueText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    int subStart = start - lastStart;
+//                    String front = remainText.substring(0, subStart);//截取出一段文字+一段url
+//                    remainText = remainText.substring(end - lastStart, remainText.length());//剩下的部分
+//                    lastStart = end;
+//                    if (front.length() > 0) {
+//                        mMsgTv.append(front);
+//                    }
+//                    mMsgTv.append(spannableString);
+//                }
+//                if (remainText != null && remainText.length() > 0) {
+//                    mMsgTv.append(remainText);
+//                }
+//            }
+
+            // 是否有 a 或 link 标签
+            boolean hasALink = false;
+            // step 1:先解析 a 标签
             Object[][] output = HyperLinkParseUtil.parseLinks(text);
             if (output == null || output.length == 0 || output[0] == null || output[0].length == 0) {
-                mMsgTv.setText(message.getText());
+                // step 2:没有 a 标签，就再解析 link 标签
+                output = HyperLinkParseUtil.parseAHrefLinks(text);
+                if (output == null || output.length == 0 || output[0] == null || output[0].length == 0) {
+                    hasALink = false;
+                    mMsgTv.setText(message.getText());
+                } else {
+                    hasALink = true;
+                }
             } else {
+                hasALink = true;
+            }
+            if (hasALink) {
                 int urlCount = output[0].length;
                 Log.i("TxtViewHolder", "一共有" + urlCount + "个url");
                 String remainText = text;

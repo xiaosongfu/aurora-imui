@@ -127,10 +127,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 //                    mVoiceAnimation = null;
 //                }
                 if (mIsSender) {
-                    mController.notifyAnimStop(mSendDrawable);
+                    mController.notifyAnimStop();
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
-                    mController.notifyAnimStop(mReceiveDrawable);
+                    mController.notifyAnimStop();
                     mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
@@ -185,6 +185,13 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 
     private void playVoice(int position, MESSAGE message) {
         mController.setLastPlayPosition(position);
+        mController.setLastPlayType(ViewHolderController.PLAY_TYPE_VOICE);
+
+        // 如果在语音播报，则要停止播报
+        if (null != mSpeechSynthesizer) {
+            mSpeechSynthesizer.stopSpeaking();
+        }
+
         try {
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());

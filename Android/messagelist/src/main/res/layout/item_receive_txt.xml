@@ -32,5 +32,15 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"
             android:background="@drawable/aurora_receivetxt_bubble" />
+        <ImageView
+            android:id="@+id/aurora_ib_msgitem_play"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginLeft="6dp"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/icon_common_play"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/aurora_tv_msgitem_message"/>
     </RelativeLayout>
 </LinearLayout>

@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechSynthesizer;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +69,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
     private MediaPlayer mMediaPlayer = new MediaPlayer();
+    private SpeechSynthesizer mSpeechSynthesizer;
 
     private List<Wrapper> mItems;
 
@@ -179,6 +183,20 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
             ((BaseMessageViewHolder) holder).mMsgLinkClickListener = this.mMsgLinkClickListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
+
+            if (null == mSpeechSynthesizer) {
+                mSpeechSynthesizer = SpeechSynthesizer.createSynthesizer(this.mContext, null);
+                //2.合成参数设置，详见《科大讯飞MSC API手册(Android)》SpeechSynthesizer 类
+                mSpeechSynthesizer.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");//设置发音人
+                mSpeechSynthesizer.setParameter(SpeechConstant.SPEED, "50");//设置语速
+                mSpeechSynthesizer.setParameter(SpeechConstant.VOLUME, "80");//设置音量，范围0~100
+                mSpeechSynthesizer.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD); //设置云端
+                //设置合成音频保存位置（可自定义保存位置），保存在“./sdcard/iflytek.pcm”
+                //保存在SD卡需要在AndroidManifest.xml添加写SD卡权限
+                //如果不需要保存合成音频，注释该行代码
+                //mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, "./sdcard/iflytek.pcm");
+            }
+            ((BaseMessageViewHolder) holder).mSpeechSynthesizer = this.mSpeechSynthesizer;
         }
         holder.onBind(wrapper.item);
     }
@@ -331,6 +349,40 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      */
     public void clear() {
         mItems.clear();
+    }
+
+    /**
+     * 停止播报文本消息
+     */
+    public void stopPlayTextMessage() {
+        if (null != mSpeechSynthesizer) {
+            mSpeechSynthesizer.stopSpeaking();
+        }
+        // 重置 ViewHolderController 的状态
+        resetViewHolderController();
+    }
+
+    /**
+     * 停止播放语音消息
+     */
+    public void stopPlayVoiceMessage() {
+        if (null != mMediaPlayer) {
+            try {
+                mMediaPlayer.pause();
+            } catch (Exception e){
+            }
+        }
+        // 重置 ViewHolderController 的状态
+        resetViewHolderController();
+    }
+
+    /**
+     * 重置 ViewHolderController 的状态
+     */
+    private void resetViewHolderController() {
+        ViewHolderController.getInstance().notifyAnimStop();
+        ViewHolderController.getInstance().setLastPlayPosition(-1);
+        ViewHolderController.getInstance().setLastPlayType(-1);
     }
 
     /**

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
 
+import com.iflytek.cloud.SpeechSynthesizer;
+
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
@@ -24,6 +26,7 @@ public abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
     protected MsgListAdapter.OnMsgResendListener<MESSAGE> mMsgResendListener;
     protected MsgListAdapter.OnMsgLinkClickListener mMsgLinkClickListener;
     protected MediaPlayer mMediaPlayer;
+    protected SpeechSynthesizer mSpeechSynthesizer;
 
     public BaseMessageViewHolder(View itemView) {
         super(itemView);

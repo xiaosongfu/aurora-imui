@@ -1,6 +1,6 @@
 package cn.jiguang.imui.messages;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -11,8 +11,12 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SynthesizerListener;
 
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
@@ -29,8 +33,10 @@ public class TxtViewHolder<MESSAGE extends IMessage>
     protected TextView mDisplayNameTv;
     protected CircleImageView mAvatarIv;
     protected ImageButton mResendIb;
+    protected ImageView mPlayIb;
     protected ProgressBar mSendingPb;
     protected boolean mIsSender;
+    protected ViewHolderController mController;
 
     public TxtViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -40,9 +46,12 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
+        mPlayIb = (ImageView) itemView.findViewById(R.id.aurora_ib_msgitem_play);
         mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
 
         mMsgTv.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mController = ViewHolderController.getInstance();
     }
 
     @Override
@@ -224,6 +233,76 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                 }
             }
         });
+
+        if (!mIsSender && null != mPlayIb) {
+            mPlayIb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mController.notifyAnimStop();
+                    mController.addView(getAdapterPosition(), mPlayIb);
+                    if (mController.getLastPlayPosition() == getAdapterPosition()) {
+                        if (null != mSpeechSynthesizer) {
+                            mSpeechSynthesizer.stopSpeaking();
+
+                            mController.setLastPlayPosition(-1);
+                            mController.setLastPlayType(-1);
+
+                            mPlayIb.setBackgroundResource(R.drawable.icon_common_play);
+                        }
+                    } else {
+                        startPlayTextMessage(getAdapterPosition(), mMsgTv.getText().toString().trim());
+                    }
+                }
+            });
+        }
+    }
+
+    private void startPlayTextMessage(int position, String text) {
+        mController.setLastPlayPosition(position);
+        mController.setLastPlayType(ViewHolderController.PLAY_TYPE_TEXT);
+
+        mPlayIb.setBackgroundResource(R.drawable.icon_common_pause);
+
+        // 如果在播放语音消息，则要停止播放
+        if (null != mMediaPlayer) {
+            mMediaPlayer.pause();
+        }
+
+        if (null != mSpeechSynthesizer) {
+            mSpeechSynthesizer.startSpeaking(text, new SynthesizerListener() {
+                @Override
+                public void onSpeakBegin() {
+                }
+
+                @Override
+                public void onBufferProgress(int i, int i1, int i2, String s) {
+                }
+
+                @Override
+                public void onSpeakPaused() {
+                }
+
+                @Override
+                public void onSpeakResumed() {
+                }
+
+                @Override
+                public void onSpeakProgress(int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onCompleted(SpeechError speechError) {
+                    mController.setLastPlayPosition(-1);
+                    mController.setLastPlayType(-1);
+
+                    mPlayIb.setBackgroundResource(R.drawable.icon_common_play);
+                }
+
+                @Override
+                public void onEvent(int i, int i1, int i2, Bundle bundle) {
+                }
+            });
+        }
     }
 
     @Override

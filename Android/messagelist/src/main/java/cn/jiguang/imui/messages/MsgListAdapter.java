@@ -52,6 +52,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private final int TYPE_CUSTOM_SEND_MSG = 11;
     private final int TYPE_CUSTOM_RECEIVE_MSG = 12;
 
+    // Deatil txt message
+    private final int TYPE_SEND_TXT_DETAIL = 31;
+    private final int TYPE_RECEIVE_TXT_DETAIL = 32;
+
     private Context mContext;
     private String mSenderId;
     private HoldersConfig mHolders;
@@ -109,6 +113,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
             case TYPE_CUSTOM_SEND_MSG:
                 return getHolder(parent, mHolders.mCustomSendMsgLayout, mHolders.mCustomSendMsgHolder, true);
+
+            case TYPE_SEND_TXT_DETAIL:
+                return getHolder(parent, mHolders.mSendTxtDetailLayout, mHolders.mSendTxtDetailHolder, true);
+            case TYPE_RECEIVE_TXT_DETAIL:
+                return getHolder(parent, mHolders.mReceiveTxtDetailLayout, mHolders.mReceiveTxtDetailHolder, false);
+
             default:
                 return getHolder(parent, mHolders.mCustomReceiveMsgLayout, mHolders.mCustomReceiveMsgHolder, false);
         }
@@ -142,6 +152,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_RECEIVE_VIDEO;
                 case SEND_CUSTOM:
                     return TYPE_CUSTOM_SEND_MSG;
+
+                case SEND_TXT_DETAIL:
+                    return TYPE_SEND_TXT_DETAIL;
+                case RECEIVE_TXT_DETAIL:
+                    return TYPE_RECEIVE_TXT_DETAIL;
+
                 default:
                     return TYPE_CUSTOM_RECEIVE_MSG;
             }
@@ -637,6 +653,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomSendMsgHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomReceiveMsgHolder;
 
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtDetailHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveTxtDetailHolder;
+
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
 
@@ -655,6 +674,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private int mCustomSendMsgLayout;
         private int mCustomReceiveMsgLayout;
 
+        private int mSendTxtDetailLayout;
+        private int mReceiveTxtDetailLayout;
+
         public HoldersConfig() {
             mSendTxtHolder = DefaultTxtViewHolder.class;
             mReceiveTxtHolder = DefaultTxtViewHolder.class;
@@ -667,6 +689,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
             mSendLocationHolder = DefaultLocationViewHolder.class;
             mReceiveLocationHolder = DefaultLocationViewHolder.class;
+
+            mSendTxtDetailHolder = DefaultTxtDetailViewHolder.class;
+            mReceiveTxtDetailHolder = DefaultTxtDetailViewHolder.class;
 
             mSendVideoHolder = DefaultVideoViewHolder.class;
             mReceiveVideoHolder = DefaultVideoViewHolder.class;
@@ -685,6 +710,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
             mSendVideoLayout = R.layout.item_send_video;
             mReceiveVideoLayout = R.layout.item_receive_video;
+
+            mSendTxtDetailLayout = R.layout.item_send_txtdetail;
+            mReceiveTxtDetailLayout = R.layout.item_receive_txtdetail;
+
         }
 
         /**
@@ -894,6 +923,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private static class DefaultLocationViewHolder extends LocationViewHolder<IMessage> {
 
         public DefaultLocationViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
+    }
+
+    private static class DefaultTxtDetailViewHolder extends TxtDetailViewHolder<IMessage> {
+
+        public DefaultTxtDetailViewHolder(View itemView, boolean isSender) {
             super(itemView, isSender);
         }
     }

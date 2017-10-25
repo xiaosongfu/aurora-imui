@@ -50,6 +50,9 @@ public interface IMessage {
         SEND_FILE,
         RECEIVE_FILE,
 
+        SEND_TXT_DETAIL,
+        RECEIVE_TXT_DETAIL,
+
         SEND_CUSTOM,
         RECEIVE_CUSTOM;
 
@@ -87,6 +90,13 @@ public interface IMessage {
      * @return text
      */
     String getText();
+
+    /**
+     * Subtitle of message.
+     * 详细文本消息的描述
+     * @return text
+     */
+    String getTxtDescription();
 
     /**
      * If message type is photo, voice, video or file,

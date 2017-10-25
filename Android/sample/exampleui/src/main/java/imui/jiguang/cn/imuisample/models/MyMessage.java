@@ -87,6 +87,11 @@ public class MyMessage implements IMessage {
     }
 
     @Override
+    public String getTxtDescription() {
+        return "";
+    }
+
+    @Override
     public String getMediaFilePath() {
         return mediaFilePath;
     }
